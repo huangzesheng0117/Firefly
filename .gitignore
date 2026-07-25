@@ -41,3 +41,7 @@ package/
 .codex*
 .claude
 .mimocode
+
+# Local third-party reference snapshots (do not publish copyrighted full text)
+/docs/reference/fqzlr-posts/*.html
+/docs/reference/fqzlr-posts/rss.xml
