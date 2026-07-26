@@ -22,7 +22,7 @@ Windows 本地源码
 | `D:\Projects\Personal Blog\website` | 日常修改、预览和验证的主要入口。 |
 | `https://github.com/huangzesheng0117/Firefly` | 个人博客源码中心和版本历史。 |
 | Cloudflare Workers | 自动构建和发布，不作为日常页面编辑入口。 |
-| `https://www.next-hop.tech/` | 面向访问者的正式网站。 |
+| `https://next-hop.tech/`、`https://www.next-hop.tech/` | 面向访问者的正式网站，均绑定到 `firefly` Worker。 |
 
 除域名、构建设置、环境变量等平台配置外，不要直接在 Cloudflare 修改页面内容。
 
@@ -364,6 +364,8 @@ GitHub 的 `master` 更新后，Cloudflare 自动执行：
 Build command:  pnpm build
 Deploy command: pnpm exec wrangler deploy
 ```
+
+`wrangler.jsonc` 声明 `next-hop.tech` 和 `www.next-hop.tech` 为 Custom Domain。不要只在控制台临时添加域名而不更新配置，否则后续 Wrangler 部署可能移除未声明的域名触发器。
 
 部署检查：
 

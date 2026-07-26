@@ -16,7 +16,7 @@ Packet & Path is ZeSheng Huang's public network engineering portfolio. It is int
 | Site identity | Complete | `Packet & Path`, author `ZeSheng Huang`, Chinese UI, network engineering metadata. |
 | Source control | Complete | GitHub repository: `huangzesheng0117/Firefly`; `master` deploys automatically. |
 | Cloud deployment | Complete | Cloudflare Worker project `firefly` builds with `pnpm build` and deploys with `pnpm exec wrangler deploy`. |
-| Production domain | Live | `https://www.next-hop.tech/` is publicly available over HTTPS. |
+| Production domain | Live | Both `https://next-hop.tech/` and `https://www.next-hop.tech/` are bound to the `firefly` Worker as Custom Domains. |
 | Performance baseline | Accepted | Mainland China and global test nodes currently load in about 1.5-3 seconds; IP optimization is deferred and documented only as a contingency. |
 | Maintenance guide | Complete | The local edit, validation, GitHub, Cloudflare, rollback, and upstream sync workflow is documented in `docs/MAINTENANCE.md`. |
 | Writing standard | Complete | Frontmatter, naming, media, Markdown extensions, SEO, link stability, quality, and security rules are documented in `docs/MAINTENANCE.md`. |
@@ -79,10 +79,8 @@ Pushing to `origin` does not change the upstream Firefly project. Fork updates a
 2. Replace the template avatar, wallpaper, announcement, and remaining demonstration visuals.
 3. Select the first three portfolio cases and create sanitized article outlines.
 4. Establish a repeatable redaction checklist before any case is committed.
-5. Verify the apex domain `https://next-hop.tech/` redirects to the canonical `www` URL.
-6. Align `wrangler.jsonc` with the Cloudflare Worker project name and committed custom-domain configuration.
-7. Decide whether comments and analytics are needed; keep them disabled until privacy requirements are defined.
-8. Keep `docs/MAINTENANCE.md` current when the build, deployment, domain, or editing workflow changes.
+5. Decide whether comments and analytics are needed; keep them disabled until privacy requirements are defined.
+6. Keep `docs/MAINTENANCE.md` current when the build, deployment, domain, or editing workflow changes.
 
 ## Security Rules
 
