@@ -21,7 +21,7 @@ Packet & Path is ZeSheng Huang's public network engineering portfolio. It is int
 | Maintenance guide | Complete | The local edit, validation, GitHub, Cloudflare, rollback, and upstream sync workflow is documented in `docs/MAINTENANCE.md`. |
 | Writing standard | Complete | Frontmatter, naming, media, Markdown extensions, SEO, link stability, quality, and security rules are documented in `docs/MAINTENANCE.md`. |
 | Reference archive | Complete | 18 fqzlr.com posts are archived locally; full HTML and RSS content is excluded from the public repository. |
-| Content migration | Not started | The default Firefly demonstration posts are still present. |
+| Content migration | In progress | The first sanitized portfolio article, `IDC 网络出口路由器替换项目复盘`, is published under `项目经历`; default Firefly demonstration posts are still present. |
 | Case sanitization | Not started | Selected cases still require customer, address, credential, topology, and configuration redaction before publication. |
 
 ## Repository Layout

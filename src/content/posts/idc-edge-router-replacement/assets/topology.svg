@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1020" viewBox="0 0 1600 1020" role="img" aria-labelledby="title desc">
+  <title id="title">上海某核心 IDC 出口网络逻辑拓扑</title>
+  <desc id="desc">上海某核心 IDC 运营商出口、边界路由器、核心交换机和业务汇聚之间的逻辑关系。</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#eef4fa"/>
+    </linearGradient>
+    <linearGradient id="router" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#115e59"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#17334d" flood-opacity=".14"/>
+    </filter>
+    <marker id="flowArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#0891b2"/>
+    </marker>
+    <marker id="peerArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#7c3aed"/>
+    </marker>
+    <style>
+      .t{font-family:"Microsoft YaHei","Noto Sans SC",Arial,sans-serif;fill:#14283c}
+      .title{font-size:31px;font-weight:700}
+      .sub{font-size:15px;fill:#62758a}
+      .layer{font-size:14px;font-weight:700;fill:#64748b;letter-spacing:1px}
+      .boxTitle{font-size:19px;font-weight:700}
+      .boxSub{font-size:13px;fill:#607387}
+      .white{fill:#fff}
+      .operator{fill:#fff;stroke:#cbd8e6;stroke-width:2}
+      .customer{fill:#fff;stroke:#cbd8e6;stroke-width:2}
+      .coreBox{fill:url(#core)}
+      .routerBox{fill:url(#router)}
+      .activeBox{fill:#0f766e;stroke:#0b5f59;stroke-width:2}
+      .mixedBox{fill:#1d4ed8;stroke:#1e40af;stroke-width:2}
+      .downBox{fill:#e5e7eb;stroke:#94a3b8;stroke-width:2}
+      .flow{fill:none;stroke:#0891b2;stroke-width:5;marker-start:url(#flowArrow);marker-end:url(#flowArrow)}
+      .flowThin{fill:none;stroke:#0891b2;stroke-width:4;marker-start:url(#flowArrow);marker-end:url(#flowArrow)}
+      .peer{fill:none;stroke:#7c3aed;stroke-width:4;stroke-dasharray:9 7;marker-start:url(#peerArrow);marker-end:url(#peerArrow)}
+      .normal{fill:none;stroke:#64748b;stroke-width:3}
+      .single{fill:none;stroke:#f59e0b;stroke-width:4}
+      .down{fill:none;stroke:#a8b1bd;stroke-width:3;stroke-dasharray:9 8}
+      .small{font-size:12px;fill:#64748b}
+      .note{fill:#fff7ed;stroke:#fdba74;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1600" height="1020" rx="26" fill="url(#bg)"/>
+  <text x="70" y="58" text-anchor="start" class="t title">上海某核心 IDC 出口网络逻辑拓扑</text>
+  <text x="70" y="112" text-anchor="start" class="t layer">上游运营商</text>
+
+  <path d="M175 220 C175 275 470 260 470 320" class="normal"/>
+  <path d="M175 220 C175 280 1130 260 1130 320" class="normal"/>
+  <path d="M485 220 C485 265 470 275 470 320" class="single"/>
+  <path d="M795 220 C795 275 1130 270 1130 320" class="single"/>
+  <path d="M1105 220 C1105 270 470 280 470 320" class="single"/>
+  <path d="M1415 220 C1415 275 470 290 470 320" class="normal"/>
+  <path d="M1415 220 C1415 275 1130 290 1130 320" class="normal"/>
+
+  <rect x="50" y="140" width="250" height="80" rx="16" class="operator" filter="url(#shadow)"/>
+  <rect x="360" y="140" width="250" height="80" rx="16" class="operator" filter="url(#shadow)"/>
+  <rect x="670" y="140" width="250" height="80" rx="16" class="operator" filter="url(#shadow)"/>
+  <rect x="980" y="140" width="250" height="80" rx="16" class="operator" filter="url(#shadow)"/>
+  <rect x="1290" y="140" width="250" height="80" rx="16" class="operator" filter="url(#shadow)"/>
+  <text x="175" y="188" text-anchor="middle" class="t boxTitle">中国电信</text>
+  <text x="485" y="188" text-anchor="middle" class="t boxTitle">联通 BGP</text>
+  <text x="795" y="188" text-anchor="middle" class="t boxTitle">联通固定</text>
+  <text x="1105" y="188" text-anchor="middle" class="t boxTitle">上海移动</text>
+  <text x="1415" y="188" text-anchor="middle" class="t boxTitle">北京移动</text>
+
+  <text x="70" y="305" text-anchor="start" class="t layer">边界路由器</text>
+  <rect x="270" y="320" width="400" height="110" rx="18" class="routerBox" filter="url(#shadow)"/>
+  <rect x="930" y="320" width="400" height="110" rx="18" class="routerBox" filter="url(#shadow)"/>
+  <text x="470" y="384" text-anchor="middle" class="t boxTitle white">H3C CR19000-1</text>
+  <text x="1130" y="384" text-anchor="middle" class="t boxTitle white">H3C CR19000-2</text>
+  <path d="M670 357 L930 357" class="peer"/>
+  <path d="M670 397 L930 397" class="peer"/>
+  <text x="800" y="344" text-anchor="middle" class="t small">双横联</text>
+
+  <text x="70" y="500" text-anchor="start" class="t layer">核心交换机</text>
+  <path d="M470 430 C470 495 245 485 245 540" class="normal"/>
+  <path d="M470 430 C470 500 935 485 935 540" class="normal"/>
+  <path d="M1130 430 C1130 500 625 485 625 540" class="normal"/>
+  <path d="M1130 430 C1130 495 1315 485 1315 540" class="normal"/>
+  <rect x="95" y="540" width="300" height="95" rx="17" class="coreBox" filter="url(#shadow)"/>
+  <rect x="475" y="540" width="300" height="95" rx="17" class="coreBox" filter="url(#shadow)"/>
+  <rect x="785" y="540" width="300" height="95" rx="17" class="coreBox" filter="url(#shadow)"/>
+  <rect x="1165" y="540" width="300" height="95" rx="17" class="coreBox" filter="url(#shadow)"/>
+  <text x="245" y="597" text-anchor="middle" class="t boxTitle white">单线核心 fixed-1</text>
+  <text x="625" y="597" text-anchor="middle" class="t boxTitle white">单线核心 fixed-2</text>
+  <text x="935" y="597" text-anchor="middle" class="t boxTitle white">多线核心 bgp-1</text>
+  <text x="1315" y="597" text-anchor="middle" class="t boxTitle white">多线核心 bgp-2</text>
+  <path d="M395 587 L475 587" class="peer"/>
+  <path d="M1085 587 L1165 587" class="peer"/>
+  <text x="435" y="571" text-anchor="middle" class="t small">核心横联</text>
+  <text x="1125" y="571" text-anchor="middle" class="t small">核心横联</text>
+
+  <text x="70" y="710" text-anchor="start" class="t layer">汇聚交换机与业务网络</text>
+  <path d="M245 635 C245 690 225 690 225 750" class="normal"/>
+  <path d="M245 635 C245 700 605 690 605 750" class="normal"/>
+  <path d="M625 635 C625 700 985 690 985 750" class="normal"/>
+  <path d="M935 635 C935 705 1375 690 1375 750" class="normal"/>
+  <path d="M1315 635 C1315 700 1375 700 1375 750" class="normal"/>
+  <rect x="65" y="750" width="320" height="100" rx="17" class="customer" filter="url(#shadow)"/>
+  <rect x="445" y="750" width="320" height="100" rx="17" class="customer" filter="url(#shadow)"/>
+  <rect x="825" y="750" width="320" height="100" rx="17" class="customer" filter="url(#shadow)"/>
+  <rect x="1215" y="750" width="320" height="100" rx="17" class="customer" filter="url(#shadow)"/>
+  <text x="225" y="793" text-anchor="middle" class="t boxTitle">电信方向汇聚</text>
+  <text x="225" y="822" text-anchor="middle" class="t boxSub">单线 IDC 客户</text>
+  <text x="605" y="793" text-anchor="middle" class="t boxTitle">联通方向汇聚</text>
+  <text x="605" y="822" text-anchor="middle" class="t boxSub">单线 IDC 客户</text>
+  <text x="985" y="793" text-anchor="middle" class="t boxTitle">移动方向汇聚</text>
+  <text x="985" y="822" text-anchor="middle" class="t boxSub">单线 IDC 客户</text>
+  <text x="1375" y="793" text-anchor="middle" class="t boxTitle">多线 BGP 汇聚</text>
+  <text x="1375" y="822" text-anchor="middle" class="t boxSub">多运营商 IDC 客户</text>
+
+  <path d="M95 940 L145 940" class="normal"/>
+  <text x="160" y="945" text-anchor="start" class="t small">双侧链路</text>
+  <path d="M330 940 L380 940" class="single"/>
+  <text x="395" y="945" text-anchor="start" class="t small">单线业务出口</text>
+  <path d="M620 940 L670 940" class="peer"/>
+  <text x="685" y="945" text-anchor="start" class="t small">设备横联</text>
+  </svg>
