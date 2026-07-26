@@ -1,5 +1,5 @@
 {
-	"name": "packet-and-path",
+	"name": "firefly",
 	"compatibility_date": "2026-07-25",
 	"compatibility_flags": ["nodejs_compat"],
 	"assets": {
