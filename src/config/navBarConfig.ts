@@ -22,25 +22,18 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		url: "#",
 		icon: "material-symbols:article",
 		children: [
-			// 归档
-			LinkPresets.Archive,
+			// 文章列表
+			LinkPresets.Posts,
 
 			// 分类
 			LinkPresets.Categories,
 
-			// 标签
-			LinkPresets.Tags,
+			// 归档
+			LinkPresets.Archive,
 		],
 	});
 
 	links.push(LinkPresets.About);
-
-	links.push({
-		name: "GitHub",
-		url: "https://github.com/huangzesheng0117",
-		external: true,
-		icon: "fa7-brands:github",
-	});
 
 	// 文档链接
 	// links.push({
@@ -67,6 +60,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		name: "主页",
 		url: "/",
 		icon: "material-symbols:home",
+	},
+	Posts: {
+		name: "文章列表",
+		url: "/posts/",
+		icon: "material-symbols:article-outline",
 	},
 	Dynamic: {
 		name: "动态",
@@ -108,7 +106,7 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		pageKey: "guestbook",
 	},
 	About: {
-		name: "关于我",
+		name: "关于",
 		url: "/about/",
 		icon: "material-symbols:person",
 	},

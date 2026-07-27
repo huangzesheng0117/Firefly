@@ -1,70 +1,81 @@
 ---
 import type { GetStaticPaths } from "astro";
-import Pagination from "@/components/common/Pagination.astro";
-import PostPage from "@/components/layout/PostPage.astro";
+import { Picture } from "astro:assets";
+import HomeDataLayer from "@/components/layout/HomeDataLayer.astro";
+import Footer from "@/components/layout/Footer.astro";
+import Navbar from "@/components/layout/Navbar.astro";
 import { siteConfig } from "@/config";
-import MainGridLayout from "@/layouts/MainGridLayout.astro";
-import { getSortedPosts } from "@/utils/content-utils";
-export const getStaticPaths = (async ({ paginate }) => {
-	const allBlogPosts = await getSortedPosts();
-	// 使用配置中的文章数量
-	const pageSize = siteConfig.pagination.postsPerPage;
-	return paginate(allBlogPosts, { pageSize });
-}) satisfies GetStaticPaths;
-// https://github.com/withastro/astro/issues/6507#issuecomment-1489916992
+import heroImage from "@/assets/images/professional/network-operations.webp";
+import Layout from "@/layouts/Layout.astro";
 
-const { page } = Astro.props;
+export const getStaticPaths = (() => [
+	{
+		params: { page: undefined },
+	},
+]) satisfies GetStaticPaths;
 
-const len = page.data.length;
+const titleText = siteConfig.title;
+const titleLetters = Array.from(titleText);
+const titleColors = [
+	"#f8fbff",
+	"#e7f9ff",
+	"#c9f3fb",
+	"#8fe5f4",
+	"#4fd2eb",
+	"#24b9dc",
+];
 ---
 
-<MainGridLayout>
-  <PostPage page={page} />
-  {
-    page.total > page.size && (
-      <Pagination
-        class="mx-auto onload-animation"
-        page={page}
-        style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms)`}
-      />
-    )
-  }
-</MainGridLayout>
+<Layout
+	title="网络工程实践"
+	description="ZeSheng Huang 的网络工程技术博客，记录网络架构、生产故障、数据中心实践与自动化。"
+>
+	<header class="home-navbar-shell">
+		<Navbar />
+	</header>
 
-<script>
-  // 响应式分页处理脚本
-  document.addEventListener("DOMContentLoaded", function () {
-    // 如果启用了响应式分页，添加相应的CSS类
-    const responsiveEnabled = true; // ${siteConfig.pagination.responsive}
-    if (responsiveEnabled) {
-      const deviceType = getDeviceType();
-      document.body.classList.add(`device-${deviceType}`);
+	<main class="professional-home">
+		<section class="home-hero" id="home-hero" aria-labelledby="home-hero-title">
+			<div class="home-hero__media" aria-hidden="true">
+				<Picture
+					src={heroImage}
+					alt=""
+					formats={["avif", "webp"]}
+					widths={[768, 1280, 1920]}
+					sizes="100vw"
+					loading="eager"
+					fetchpriority="high"
+				/>
+			</div>
+			<div class="home-hero__veil"></div>
+			<div class="home-hero__grid"></div>
+			<div class="home-hero__scanline"></div>
 
-      // 监听窗口大小变化
-      let resizeTimeout: any;
-      window.addEventListener("resize", function () {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function () {
-          const newDeviceType = getDeviceType();
-          const currentDeviceType = document.body.className.match(
-            /device-(mobile|tablet|desktop)/
-          )?.[1];
+			<div class="home-hero__content">
+				<h1
+					id="home-hero-title"
+					class="home-hero__name home-hero__name--css-hatch"
+					aria-label={titleText}
+				>
+					{
+						titleLetters.map((letter, index) => (
+							<span
+								class="home-hero__name-letter"
+								style={`--letter-color:${titleColors[index % titleColors.length]};--letter-index:${index}`}
+								aria-hidden="true"
+							>
+								{letter === " " ? "\u00a0" : letter}
+							</span>
+						))
+					}
+				</h1>
+			</div>
+		</section>
 
-          if (currentDeviceType !== newDeviceType) {
-            document.body.classList.remove(`device-${currentDeviceType}`);
-            document.body.classList.add(`device-${newDeviceType}`);
-          }
-        }, 250);
-      });
-    }
-  });
+		<HomeDataLayer />
+	</main>
 
-  function getDeviceType() {
-    if (typeof window === "undefined") return "desktop";
-
-    const width = window.innerWidth;
-    if (width < 768) return "mobile";
-    if (width < 1024) return "tablet";
-    return "desktop";
-  }
-</script>
+	<div class="home-footer">
+		<Footer />
+	</div>
+</Layout>

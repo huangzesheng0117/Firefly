@@ -1,0 +1,175 @@
+---
+import { Picture } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import networkImage from "@/assets/images/professional/network-operations.webp";
+import opticImage from "@/assets/images/professional/optic-module.webp";
+import serverImage from "@/assets/images/professional/server-racks.webp";
+import {
+	getSortedPosts,
+} from "@/utils/content-utils";
+import { url } from "@/utils/url-utils";
+
+const allPosts = await getSortedPosts();
+const posts = allPosts.filter(
+	(post) =>
+		!post.data.draft && new Date(post.data.published).getFullYear() >= 2000,
+);
+const categoryCount = new Set(
+	posts.map((post) => post.data.category).filter(Boolean),
+).size;
+const tagCount = new Set(posts.flatMap((post) => post.data.tags || [])).size;
+
+const totalWords = posts.reduce((sum, post) => {
+	const text = (post.body || "")
+		.replace(/```[\s\S]*?```/g, "")
+		.replace(/`[^`]*`/g, "")
+		.replace(/\s+/g, " ")
+		.trim();
+	const chineseChars = text.match(/[\u4e00-\u9fa5]/g) || [];
+	const latinWords = text.match(/[a-zA-Z]+/g) || [];
+	return sum + chineseChars.length + latinWords.length;
+}, 0);
+
+const formatCompact = (value: number) => {
+	if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
+	return String(value);
+};
+
+const infrastructure = [
+	{ icon: "simple-icons:cloudflare", label: "Cloudflare" },
+	{ icon: "simple-icons:github", label: "GitHub" },
+	{ icon: "material-symbols:language", label: "Spaceship DNS" },
+	{ icon: "simple-icons:astro", label: "Astro" },
+	{ icon: "material-symbols:deployed-code-outline", label: "Workers" },
+	{ icon: "material-symbols:lock-outline", label: "Zero Trust" },
+];
+
+const skills = [
+	{ icon: "simple-icons:cisco", label: "Cisco" },
+	{ icon: "simple-icons:linux", label: "Linux" },
+	{ icon: "simple-icons:python", label: "Python" },
+	{ icon: "simple-icons:docker", label: "Docker" },
+	{ icon: "simple-icons:nginx", label: "Nginx" },
+	{ icon: "simple-icons:git", label: "Git" },
+	{ icon: "simple-icons:prometheus", label: "Prometheus" },
+	{ icon: "simple-icons:grafana", label: "Grafana" },
+	{ icon: "simple-icons:cloudflare", label: "Cloudflare" },
+];
+---
+
+<section class="home-data-layer" id="data-matrix" aria-labelledby="data-matrix-title">
+	<header class="home-data-layer__heading">
+		<span>CONTEXT</span>
+		<small>站点数据</small>
+		<h2 id="data-matrix-title">能力矩阵</h2>
+	</header>
+
+	<div class="home-data-layer__row home-data-layer__row--top">
+		<article class="data-metric-card">
+			<Picture
+				class="data-metric-card__image"
+				src={networkImage}
+				alt=""
+				formats={["avif", "webp"]}
+				widths={[480, 760]}
+				sizes="(max-width: 800px) 100vw, 34vw"
+				loading="lazy"
+			/>
+			<div class="data-metric-card__wash"></div>
+			<div class="data-metric-card__content">
+				<span>VISITS</span>
+				<h3>站点访问</h3>
+				<p>访客 <strong>待接入</strong> / 浏览 <strong>待接入</strong></p>
+			</div>
+		</article>
+
+		<a class="data-metric-card" href={url("/archive/")}>
+			<Picture
+				class="data-metric-card__image data-metric-card__image--right"
+				src={serverImage}
+				alt=""
+				formats={["avif", "webp"]}
+				widths={[720, 1280]}
+				sizes="(max-width: 800px) 100vw, 62vw"
+				loading="lazy"
+			/>
+			<div class="data-metric-card__wash"></div>
+			<div class="data-metric-card__content">
+				<span>ARCHIVE</span>
+				<h3>文章档案</h3>
+				<p>
+					<strong>{posts.length}</strong> 篇文章 /
+					<strong>{categoryCount}</strong> 个分类 /
+					<strong>{tagCount}</strong> 个标签
+				</p>
+			</div>
+		</a>
+	</div>
+
+	<div class="data-band">
+		<Picture
+			class="data-band__image"
+			src={opticImage}
+			alt=""
+			formats={["avif", "webp"]}
+			widths={[520, 860]}
+			sizes="(max-width: 800px) 100vw, 36vw"
+			loading="lazy"
+		/>
+		<div class="data-band__intro">
+			<span>CONTACT</span>
+			<h3>基础设施</h3>
+			<p>从域名、边缘网络到内容构建，保持链路简单、透明、可验证。</p>
+		</div>
+		<div class="matrix-loop" aria-label="站点基础设施">
+			<div class="matrix-loop__track">
+				{[...infrastructure, ...infrastructure].map((item, index) => (
+					<span
+						class="matrix-loop__chip"
+						aria-hidden={index >= infrastructure.length ? "true" : undefined}
+					>
+						<Icon name={item.icon} />
+						{item.label}
+					</span>
+				))}
+			</div>
+		</div>
+	</div>
+
+	<div class="data-band data-band--skills">
+		<Picture
+			class="data-band__image"
+			src={networkImage}
+			alt=""
+			formats={["avif", "webp"]}
+			widths={[520, 860]}
+			sizes="(max-width: 800px) 100vw, 36vw"
+			loading="lazy"
+		/>
+		<div class="data-band__intro">
+			<span>SKILLS</span>
+			<h3>技能图标</h3>
+			<p>网络、系统、自动化与可观测性工具在同一条工程链路上循环。</p>
+		</div>
+		<div class="matrix-loop matrix-loop--skills" aria-label="专业技能">
+			<div class="matrix-loop__track matrix-loop__track--reverse">
+				{[...skills, ...skills].map((item, index) => (
+					<span
+						class="matrix-loop__skill"
+						title={item.label}
+						aria-hidden={index >= skills.length ? "true" : undefined}
+					>
+						<Icon name={item.icon} />
+						<small>{item.label}</small>
+					</span>
+				))}
+			</div>
+		</div>
+	</div>
+
+	<footer class="home-data-layer__foot">
+		<span>LOCAL CONTENT INDEX</span>
+		<span>{formatCompact(totalWords)} WORDS</span>
+		<span>UPDATED WITH EACH BUILD</span>
+	</footer>
+</section>

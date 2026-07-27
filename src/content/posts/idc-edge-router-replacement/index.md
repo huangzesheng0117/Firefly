@@ -2,7 +2,7 @@
 title: "IDC 网络出口路由器替换项目复盘：从 CR16000 到 CR19000"
 published: 2026-07-26
 description: "一次核心 IDC 双机出口路由器替换实践，覆盖现网梳理、配置治理、实验室验证、四阶段割接、跨团队协同与回滚控制。"
-image: ""
+image: "./cover.webp"
 tags: [IDC, BGP, 网络割接, 路由器替换, H3C, IPv6]
 category: 项目经历
 draft: false

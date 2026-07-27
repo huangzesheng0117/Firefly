@@ -1,0 +1,60 @@
+---
+import PostPage from "@/components/layout/PostPage.astro";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@/utils/content-utils";
+
+const allPosts = await getSortedPosts();
+const posts = allPosts.filter(
+	(post) =>
+		!post.data.draft && new Date(post.data.published).getFullYear() >= 2000,
+);
+const page = {
+	data: posts,
+};
+---
+
+<MainGridLayout
+	title="文章列表"
+	description="网络架构、故障复盘、数据中心实践与网络自动化文章。"
+>
+	<header class="professional-page-heading">
+		<span>ARTICLES</span>
+		<h1>文章列表</h1>
+		<p>记录真实工程问题中的判断、证据、实施过程与复盘结论。</p>
+	</header>
+	<PostPage page={page} />
+</MainGridLayout>
+
+<style>
+	.professional-page-heading {
+		margin-bottom: 1rem;
+		padding: 2rem clamp(1.4rem, 4vw, 3rem);
+		border: 1px solid var(--professional-line);
+		border-radius: 1.15rem;
+		background:
+			linear-gradient(120deg, rgb(6 24 40 / 96%), rgb(10 39 60 / 93%)),
+			linear-gradient(90deg, transparent, rgb(103 232 249 / 12%));
+		box-shadow: 0 20px 55px rgb(15 23 42 / 8%);
+	}
+
+	.professional-page-heading > span {
+		color: #67e8f9;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		font-size: 0.64rem;
+		font-weight: 750;
+		letter-spacing: 0.16em;
+	}
+
+	.professional-page-heading h1 {
+		margin: 0.55rem 0;
+		color: white;
+		font-size: clamp(2rem, 4vw, 3rem);
+		letter-spacing: -0.04em;
+	}
+
+	.professional-page-heading p {
+		margin: 0;
+		color: rgb(226 232 240 / 62%);
+		line-height: 1.7;
+	}
+</style>

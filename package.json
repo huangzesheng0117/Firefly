@@ -3,8 +3,8 @@
   "type": "module",
   "version": "6.15.0",
   "scripts": {
-    "dev": "astro dev --port 5173",
-    "start": "astro dev --port 5173",
+    "dev": "astro dev --host 127.0.0.1 --port 5173",
+    "start": "astro dev --host 127.0.0.1 --port 5173",
     "check": "astro check",
     "build": "npx tsx scripts/generate-lqips.ts && astro build && npx tsx scripts/subset-fonts.ts && pagefind --site dist",
     "preview": "astro preview",
