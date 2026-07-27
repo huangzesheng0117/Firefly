@@ -60,8 +60,10 @@ git pull --ff-only origin master
 | 页面组件和视觉样式 | `src/components/`、`src/styles/` |
 | 公共静态资源 | `public/` |
 | 受源码管理的图片 | `src/assets/` |
+| 当前前端设计、字体和导航维护说明 | `docs/REFERENCE_IMPLEMENTATION.md` |
 
-结构和组件修改比 Markdown 文章修改风险更高，应保持改动范围小，并同时检查桌面端和移动端。
+结构和组件修改比 Markdown 文章修改风险更高，应先阅读
+`docs/REFERENCE_IMPLEMENTATION.md`，保持改动范围小，并同时检查桌面端和移动端。
 
 ## 4. 新增文章
 
