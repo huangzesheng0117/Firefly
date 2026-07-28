@@ -1,12 +1,9 @@
 ---
 import { Picture } from "astro:assets";
-import { Icon } from "astro-icon/components";
 import networkImage from "@/assets/images/professional/network-operations.webp";
 import opticImage from "@/assets/images/professional/optic-module.webp";
 import serverImage from "@/assets/images/professional/server-racks.webp";
-import {
-	getSortedPosts,
-} from "@/utils/content-utils";
+import { getSortedPosts } from "@/utils/content-utils";
 import { url } from "@/utils/url-utils";
 
 const allPosts = await getSortedPosts();
@@ -36,24 +33,60 @@ const formatCompact = (value: number) => {
 };
 
 const infrastructure = [
-	{ icon: "simple-icons:cloudflare", label: "Cloudflare" },
-	{ icon: "simple-icons:github", label: "GitHub" },
-	{ icon: "material-symbols:language", label: "Spaceship DNS" },
-	{ icon: "simple-icons:astro", label: "Astro" },
-	{ icon: "material-symbols:deployed-code-outline", label: "Workers" },
-	{ icon: "material-symbols:lock-outline", label: "Zero Trust" },
+	{
+    logo: "/assets/images/logos/transparent/cisco.png",
+    label: "Cisco",
+    visualWidth: 66,
+    visualHeight: 40,
+	},
+	{
+		logo: "/assets/images/logos/transparent/huawei.png",
+		label: "HUAWEI",
+		visualWidth: 60,
+		visualHeight: 44,
+	},
+	{
+    logo: "/assets/images/logos/transparent/h3c.png",
+    label: "H3C",
+    visualWidth: 76,
+    visualHeight: 35,
+	},
+	{
+		logo: "/assets/images/logos/transparent/fortigate.png",
+		label: "Fortigate",
+		visualWidth: 64,
+		visualHeight: 41,
+	},
+	{
+    logo: "/assets/images/logos/transparent/hillstone.png",
+    label: "Hillstone",
+    visualWidth: 76,
+    visualHeight: 35,
+	},
+	{
+		logo: "/assets/images/logos/transparent/nvidia.png",
+		label: "Nvidia",
+		visualWidth: 60,
+		visualHeight: 44,
+	},
 ];
 
 const skills = [
-	{ icon: "simple-icons:cisco", label: "Cisco" },
-	{ icon: "simple-icons:linux", label: "Linux" },
-	{ icon: "simple-icons:python", label: "Python" },
-	{ icon: "simple-icons:docker", label: "Docker" },
-	{ icon: "simple-icons:nginx", label: "Nginx" },
-	{ icon: "simple-icons:git", label: "Git" },
-	{ icon: "simple-icons:prometheus", label: "Prometheus" },
-	{ icon: "simple-icons:grafana", label: "Grafana" },
-	{ icon: "simple-icons:cloudflare", label: "Cloudflare" },
+	{ logo: "/assets/images/logos/transparent/git.png", label: "Git" },
+	{ logo: "/assets/images/logos/transparent/cacti.png", label: "Cacti" },
+	{ logo: "/assets/images/logos/transparent/linux.png", label: "Linux" },
+	{ logo: "/assets/images/logos/transparent/netbox.png", label: "Netbox" },
+	{ logo: "/assets/images/logos/transparent/zabbix.png", label: "Zabbix" },
+	{ logo: "/assets/images/logos/transparent/python.png", label: "Python" },
+	{ logo: "/assets/images/logos/transparent/grafana.png", label: "Grafana" },
+	{
+		logo: "/assets/images/logos/transparent/prometheus.png",
+		label: "Prometheus",
+	},
+	{
+		logo: "/assets/images/logos/transparent/elasticsearch.png",
+		label: "Elasticsearch",
+	},
 ];
 ---
 
@@ -125,11 +158,21 @@ const skills = [
 			<div class="matrix-loop__track">
 				{[...infrastructure, ...infrastructure].map((item, index) => (
 					<span
-						class="matrix-loop__chip"
+						class="matrix-loop__logo-item matrix-loop__logo-item--brand"
+						title={item.label}
 						aria-hidden={index >= infrastructure.length ? "true" : undefined}
 					>
-						<Icon name={item.icon} />
-						{item.label}
+						<img
+							class="matrix-loop__logo"
+							src={item.logo}
+							alt=""
+							width="112"
+							height="64"
+							loading="lazy"
+							decoding="async"
+							style={`--brand-logo-width:${item.visualWidth}px;--brand-logo-height:${item.visualHeight}px`}
+						/>
+						<small>{item.label}</small>
 					</span>
 				))}
 			</div>
@@ -155,11 +198,19 @@ const skills = [
 			<div class="matrix-loop__track matrix-loop__track--reverse">
 				{[...skills, ...skills].map((item, index) => (
 					<span
-						class="matrix-loop__skill"
+						class="matrix-loop__logo-item matrix-loop__logo-item--skill"
 						title={item.label}
 						aria-hidden={index >= skills.length ? "true" : undefined}
 					>
-						<Icon name={item.icon} />
+						<img
+							class="matrix-loop__logo"
+							src={item.logo}
+							alt=""
+							width="64"
+							height="64"
+							loading="lazy"
+							decoding="async"
+						/>
 						<small>{item.label}</small>
 					</span>
 				))}

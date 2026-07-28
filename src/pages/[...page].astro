@@ -4,7 +4,6 @@ import { Picture } from "astro:assets";
 import HomeDataLayer from "@/components/layout/HomeDataLayer.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Navbar from "@/components/layout/Navbar.astro";
-import { siteConfig } from "@/config";
 import heroImage from "@/assets/images/professional/network-operations.webp";
 import Layout from "@/layouts/Layout.astro";
 
@@ -14,7 +13,7 @@ export const getStaticPaths = (() => [
 	},
 ]) satisfies GetStaticPaths;
 
-const titleText = siteConfig.title;
+const titleText = "next-hop.tech";
 const titleLetters = Array.from(titleText);
 const titleColors = [
 	"#f8fbff",
