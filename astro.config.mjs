@@ -133,6 +133,19 @@ export default defineConfig({
 			updateHead: true,
 			updateBodyClass: false,
 			globalInstance: true,
+			// The professional homepage uses a standalone layout without the
+			// containers rendered by MainGridLayout. Crossing that boundary
+			// must use a native navigation instead of Swup's partial replacement.
+			ignore: (targetUrl) => {
+				const normalizePath = (pathname) =>
+					pathname.replace(/\/+$/, "") || "/";
+				const currentPath = normalizePath(window.location.pathname);
+				const targetPath = normalizePath(
+					new URL(targetUrl, window.location.href).pathname,
+				);
+
+				return currentPath === "/" || targetPath === "/";
+			},
 			// 滚动相关配置优化
 			resolveUrl: (url) => url,
 			animateHistoryBrowsing: false,
