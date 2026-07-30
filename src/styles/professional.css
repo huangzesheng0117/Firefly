@@ -229,6 +229,13 @@ body.is-home {
 	line-height: 0.86;
 }
 
+html[data-site-lang="en"] .home-data-layer__heading h2 {
+	padding-bottom: 0.16em;
+	letter-spacing: -0.01em;
+	line-height: 0.98;
+	word-spacing: 0.12em;
+}
+
 .home-data-layer__row {
 	display: grid;
 	gap: var(--matrix-gap);
@@ -310,6 +317,13 @@ a.data-metric-card:hover {
 	line-height: 1;
 }
 
+html[data-site-lang="en"] .data-metric-card__content h3,
+html[data-site-lang="en"] .data-band__intro h3 {
+	letter-spacing: 0.01em;
+	line-height: 1.08;
+	word-spacing: 0.12em;
+}
+
 .data-metric-card__content p,
 .data-band__intro p {
 	margin: 0.65rem 0 0;
@@ -318,9 +332,19 @@ a.data-metric-card:hover {
 	font-weight: 580;
 }
 
+html[data-site-lang="en"] .data-metric-card__content p,
+html[data-site-lang="en"] .data-band__intro p {
+	letter-spacing: 0.01em;
+	word-spacing: 0.08em;
+}
+
 .data-metric-card__content p strong {
 	color: #111;
 	font-weight: 820;
+}
+
+html[data-site-lang="en"] .data-metric-card__content p > span + strong {
+	margin-inline-start: 0.28em;
 }
 
 .data-band {

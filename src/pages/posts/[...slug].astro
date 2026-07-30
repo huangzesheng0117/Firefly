@@ -29,6 +29,10 @@ import { sponsorConfig } from "@/config/sponsorConfig";
 import { formatDateToYYYYMMDD } from "@/utils/date-utils";
 import { getApiUrlList, processCoverImageSync } from "@/utils/image-utils";
 import { url } from "@/utils/url-utils";
+import {
+	Content as EnglishArticleContent,
+	getHeadings as getEnglishArticleHeadings,
+} from "@/content-locales/idc-edge-router-replacement/index.en.md";
 
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
@@ -44,6 +48,22 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
+const isBilingualArticle = entry.id === "idc-edge-router-replacement";
+const englishArticleHeadings = isBilingualArticle
+	? getEnglishArticleHeadings()
+	: [];
+const tocHeadings = isBilingualArticle
+	? headings.map((heading, index) => ({
+			...heading,
+			text: englishArticleHeadings[index]?.text || heading.text,
+		}))
+	: headings;
+const headingTranslations = isBilingualArticle
+	? headings.map((heading, index) => ({
+			en: englishArticleHeadings[index]?.text || heading.text,
+			zh: heading.text,
+		}))
+	: [];
 
 const { remarkPluginFrontmatter } = await render(entry);
 
@@ -115,7 +135,8 @@ const relatedPosts = await getRelatedPosts(entry, 5);
   setOGTypeArticle={true}
   postSlug={entry.id}
   postCategory={entry.data.category || undefined}
-  headings={headings}
+  headings={tocHeadings}
+  headingTranslations={headingTranslations}
   encrypted={!!entry.data.password}
   bannerPostMeta={bannerPostMeta}
 >
@@ -304,7 +325,18 @@ const relatedPosts = await getRelatedPosts(entry, 5);
       {entry.data.password ? (
         <EncryptedPost password={entry.data.password} slug={entry.id} hint={entry.data.passwordHint}>
           <Markdown class="mb-6 markdown-content onload-animation">
-            <Content />
+            {isBilingualArticle ? (
+              <>
+                <div class="language-content language-content--en" data-i18n-skip>
+                  <EnglishArticleContent />
+                </div>
+                <div class="language-content language-content--zh" data-i18n-skip>
+                  <Content />
+                </div>
+              </>
+            ) : (
+              <Content />
+            )}
           </Markdown>
 
           {/* 打赏按钮 & 分享按钮 */}
@@ -394,7 +426,18 @@ const relatedPosts = await getRelatedPosts(entry, 5);
       ) : (
         <>
           <Markdown class="mb-6 markdown-content onload-animation">
-            <Content />
+            {isBilingualArticle ? (
+              <>
+                <div class="language-content language-content--en" data-i18n-skip>
+                  <EnglishArticleContent />
+                </div>
+                <div class="language-content language-content--zh" data-i18n-skip>
+                  <Content />
+                </div>
+              </>
+            ) : (
+              <Content />
+            )}
           </Markdown>
 
           {/* 打赏按钮 & 分享按钮 */}
@@ -593,3 +636,30 @@ const relatedPosts = await getRelatedPosts(entry, 5);
   <!-- 评论 -->
   {entry.data.comment && !entry.data.password && <Comment post={entry} />}
 </MainGridLayout>
+
+{
+  isBilingualArticle && (
+    <script is:inline>
+      {`
+        (function syncBilingualArticleHeadingIds() {
+          function syncIds() {
+            var englishHeadings = document.querySelectorAll(
+              ".language-content--en h1, .language-content--en h2, .language-content--en h3, .language-content--en h4, .language-content--en h5, .language-content--en h6"
+            );
+            var chineseHeadings = document.querySelectorAll(
+              ".language-content--zh h1, .language-content--zh h2, .language-content--zh h3, .language-content--zh h4, .language-content--zh h5, .language-content--zh h6"
+            );
+            englishHeadings.forEach(function assignChineseId(heading, index) {
+              if (chineseHeadings[index] && chineseHeadings[index].id) {
+                heading.id = chineseHeadings[index].id;
+              }
+            });
+          }
+          syncIds();
+          document.addEventListener("swup:contentReplaced", syncIds);
+          document.addEventListener("astro:page-load", syncIds);
+        })();
+      `}
+    </script>
+  )
+}

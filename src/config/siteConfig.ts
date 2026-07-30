@@ -2,7 +2,7 @@ import type { SiteConfig } from "@/types/siteConfig";
 
 // 定义站点语言
 // 语言代码，例如：'zh_CN', 'zh_TW', 'en', 'ja', 'ru', 'ko'。
-const SITE_LANG = "zh_CN";
+const SITE_LANG = "en";
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
@@ -16,16 +16,15 @@ export const siteConfig: SiteConfig = {
 
 	// 站点描述
 	description:
-		"ZeSheng Huang 的网络工程技术博客，记录网络架构设计、生产故障排查、数据中心实践与网络自动化项目。",
+		"ZeSheng Huang's network engineering blog, documenting network architecture, production troubleshooting, data center practices, and network automation projects.",
 
 	// 站点关键词
 	keywords: [
-		"网络工程",
-		"故障排查",
-		"数据中心",
-		"网络安全",
-		"网络自动化",
 		"Network Engineering",
+		"Troubleshooting",
+		"Data Center",
+		"Network Security",
+		"Network Automation",
 		"NetDevOps",
 	],
 

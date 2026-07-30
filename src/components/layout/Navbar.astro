@@ -6,6 +6,14 @@ import { url } from "@/utils/url-utils";
 
 const currentPath = Astro.url.pathname;
 const links = navBarConfig.links;
+const chineseNavNames: Record<string, string> = {
+	Home: "主页",
+	Articles: "文章",
+	"Post List": "文章列表",
+	Categories: "分类",
+	Archive: "归档",
+	About: "关于",
+};
 
 const normalizePath = (path: string) =>
 	path === "/" ? path : `${path.replace(/\/+$/, "")}/`;
@@ -25,7 +33,7 @@ const isLinkActive = (link: NavBarLink) => {
 };
 ---
 
-<nav id="navbar" class="network-navbar-shell" aria-label="主导航">
+<nav id="navbar" class="network-navbar-shell" aria-label="Main navigation" data-lang-aria-en="Main navigation" data-lang-aria-zh="主导航">
 	<div class="network-navbar">
 		<div class="network-nav-links">
 			{
@@ -39,7 +47,7 @@ const isLinkActive = (link: NavBarLink) => {
 						>
 							<summary class="network-nav-link">
 								<Icon name={link.icon || "material-symbols:article"} />
-								<span>{link.name}</span>
+								<span data-lang-en={link.name} data-lang-zh={chineseNavNames[link.name] || link.name}>{link.name}</span>
 								<Icon
 									name="material-symbols:keyboard-arrow-down-rounded"
 									class="network-nav-chevron"
@@ -59,7 +67,7 @@ const isLinkActive = (link: NavBarLink) => {
 												name={child.icon || "material-symbols:article-outline"}
 											/>
 										</span>
-										<span>{child.name}</span>
+										<span data-lang-en={child.name} data-lang-zh={chineseNavNames[child.name] || child.name}>{child.name}</span>
 										<Icon
 											name="material-symbols:arrow-outward-rounded"
 											class="network-nav-menu__arrow"
@@ -80,11 +88,22 @@ const isLinkActive = (link: NavBarLink) => {
 							]}
 						>
 							<Icon name={link.icon || "material-symbols:link"} />
-							<span>{link.name}</span>
+							<span data-lang-en={link.name} data-lang-zh={chineseNavNames[link.name] || link.name}>{link.name}</span>
 						</a>
 					),
 				)
 			}
+			<button
+				type="button"
+				class="network-nav-link network-language-toggle"
+				data-language-toggle
+				aria-label="Switch to Chinese"
+				title="Switch to Chinese"
+				aria-pressed="false"
+			>
+				<Icon name="material-symbols:language" />
+				<span data-language-toggle-label>English</span>
+			</button>
 		</div>
 	</div>
 </nav>
@@ -164,6 +183,13 @@ const isLinkActive = (link: NavBarLink) => {
 			background-color 160ms ease,
 			color 160ms ease,
 			transform 160ms ease;
+	}
+
+	.network-language-toggle {
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+		white-space: nowrap;
 	}
 
 	.network-nav-link :global(svg) {

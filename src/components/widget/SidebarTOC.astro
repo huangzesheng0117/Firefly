@@ -9,6 +9,7 @@ import { computeTocItems } from "@/utils/toc-shared";
 
 interface Props {
 	headings: MarkdownHeading[];
+	headingTranslations?: { en: string; zh: string }[];
 	encrypted?: boolean;
 	class?: string;
 	style?: string;
@@ -17,6 +18,7 @@ interface Props {
 
 const {
 	headings = [],
+	headingTranslations = [],
 	encrypted = false,
 	class: className,
 	style,
@@ -27,6 +29,12 @@ const showTitle = widgetConfig?.showTitle !== false;
 
 // 加密文章不在服务端渲染目录（避免标题泄露），交由客户端解密后生成
 const items = encrypted ? [] : computeTocItems(headings, { maxLevel: 3 });
+const translationsByHeadingId = new Map(
+	headings.map((heading, index) => [
+		heading.slug,
+		headingTranslations[index] || { en: heading.text, zh: heading.text },
+	]),
+);
 ---
 
 <WidgetLayout
@@ -48,8 +56,10 @@ const items = encrypted ? [] : computeTocItems(headings, { maxLevel: 3 });
               href={item.href}
               class={`toc-item toc-level-${item.depthLevel}`}
               data-heading-id={item.headingId}
-              aria-label={item.text}
-              title={item.text}
+              aria-label={translationsByHeadingId.get(item.headingId)?.en || item.text}
+              title={translationsByHeadingId.get(item.headingId)?.en || item.text}
+              data-lang-aria-en={translationsByHeadingId.get(item.headingId)?.en || item.text}
+              data-lang-aria-zh={translationsByHeadingId.get(item.headingId)?.zh || item.text}
             >
               <div class={`toc-badge ${item.badgeKind === "index" ? "toc-badge-index" : ""}`}>
                 {item.badgeKind === "index" ? (
@@ -60,7 +70,11 @@ const items = encrypted ? [] : computeTocItems(headings, { maxLevel: 3 });
                   <span class="toc-badge-dot toc-badge-dot-sm"></span>
                 )}
               </div>
-              <div class={`toc-label ${item.labelPrimary ? "toc-label-primary" : "toc-label-secondary"}`}>
+              <div
+                class={`toc-label ${item.labelPrimary ? "toc-label-primary" : "toc-label-secondary"}`}
+                data-lang-en={translationsByHeadingId.get(item.headingId)?.en || item.text}
+                data-lang-zh={translationsByHeadingId.get(item.headingId)?.zh || item.text}
+              >
                 {item.text}
               </div>
             </a>

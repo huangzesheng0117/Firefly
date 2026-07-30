@@ -1,0 +1,410 @@
+---
+import { en } from "@/i18n/languages/en";
+import { zh_CN } from "@/i18n/languages/zh_CN";
+
+const englishDictionary = en as unknown as Record<string, string>;
+const chineseDictionary = zh_CN as unknown as Record<string, string>;
+
+const dictionaryPairs = Object.entries(englishDictionary)
+	.map(([key, english]) => ({
+		en: english,
+		zh: chineseDictionary[key],
+	}))
+	.filter((pair): pair is { en: string; zh: string } =>
+		Boolean(pair.en && pair.zh && pair.en !== pair.zh),
+	);
+
+const customPairs = [
+	{ en: "Top 10", zh: "前 10" },
+	{ en: "All Rights Reserved.", zh: "版权所有。" },
+	{ en: "Powered by", zh: "技术支持" },
+	{
+		en: "IDC Edge Router Replacement Project: Post-Implementation Review",
+		zh: "IDC 网络出口路由器替换项目复盘：从 CR16000 到 CR19000",
+	},
+	{
+		en: "A core IDC dual-router egress replacement covering production baseline analysis, configuration cleanup, lab validation, a four-stage cutover, cross-team coordination, and rollback control.",
+		zh: "一次核心 IDC 双机出口路由器替换实践，覆盖现网梳理、配置治理、实验室验证、四阶段割接、跨团队协同与回滚控制。",
+	},
+	{ en: "Project Experience", zh: "项目经历" },
+	{ en: "Network Cutover", zh: "网络割接" },
+	{ en: "Router Replacement", zh: "路由器替换" },
+	{ en: "Network Engineering Practice", zh: "网络工程实践" },
+	{
+		en: "Documenting decisions, evidence, implementation, and lessons learned from real engineering challenges.",
+		zh: "记录真实工程问题中的判断、证据、实施过程与复盘结论。",
+	},
+	{ en: "Site Data", zh: "站点数据" },
+	{ en: "Capability Matrix", zh: "能力矩阵" },
+	{ en: "Site Visits", zh: "站点访问" },
+	{ en: "Visitors", zh: "访客" },
+	{ en: "Views", zh: "浏览" },
+	{ en: "Pending", zh: "待接入" },
+	{ en: "Article Archive", zh: "文章档案" },
+	{ en: "posts", zh: "篇文章" },
+	{ en: "categories", zh: "个分类" },
+	{ en: "tags", zh: "个标签" },
+	{ en: "Infrastructure", zh: "基础设施" },
+	{
+		en: "From domains and edge networks to content builds, keep every path simple, transparent, and verifiable.",
+		zh: "从域名、边缘网络到内容构建，保持链路简单、透明、可验证。",
+	},
+	{ en: "Skill Icons", zh: "技能图标" },
+	{
+		en: "Networking, systems, automation, and observability tools move through one engineering workflow.",
+		zh: "网络、系统、自动化与可观测性工具在同一条工程链路上循环。",
+	},
+];
+
+const translationPairs = [...dictionaryPairs, ...customPairs];
+---
+
+<script is:inline define:vars={{ translationPairs }}>
+	(function initializeLanguageManager() {
+		if (window.__nextHopLanguageManager) {
+			window.__nextHopLanguageManager.refresh();
+			return;
+		}
+
+		var textOriginals = new WeakMap();
+		var attributeOriginals = new WeakMap();
+		var exactTranslations = new Map();
+		var templateTranslations = [];
+		var applyingLanguage = false;
+		var supportedAttributes = [
+			"aria-label",
+			"title",
+			"placeholder",
+			"data-expand-text",
+			"data-collapse-text",
+			"data-copied-text",
+			"data-failed-text",
+			"data-template",
+		];
+
+		function escapeRegExp(value) {
+			return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+		}
+
+		translationPairs.forEach(function registerPair(pair) {
+			if (!pair || !pair.en || !pair.zh) return;
+			exactTranslations.set(pair.en, pair.zh);
+
+			var placeholders = [];
+			var cursor = 0;
+			var source = "^";
+			var placeholderPattern = /\{([a-zA-Z0-9_]+)\}/g;
+			var match;
+
+			while ((match = placeholderPattern.exec(pair.en)) !== null) {
+				source += escapeRegExp(pair.en.slice(cursor, match.index));
+				source += "(.+?)";
+				placeholders.push(match[1]);
+				cursor = match.index + match[0].length;
+			}
+
+			if (placeholders.length > 0) {
+				source += escapeRegExp(pair.en.slice(cursor)) + "$";
+				templateTranslations.push({
+					regex: new RegExp(source),
+					placeholders: placeholders,
+					target: pair.zh,
+				});
+			}
+		});
+
+		function getStoredLanguage() {
+			try {
+				return localStorage.getItem("site-language") === "zh-CN"
+					? "zh-CN"
+					: "en";
+			} catch (_error) {
+				return "en";
+			}
+		}
+
+		function translateValue(value) {
+			if (exactTranslations.has(value)) {
+				return exactTranslations.get(value);
+			}
+			if (value.startsWith("#")) {
+				return "#" + translateValue(value.slice(1));
+			}
+
+			for (var index = 0; index < templateTranslations.length; index += 1) {
+				var template = templateTranslations[index];
+				var result = value.match(template.regex);
+				if (!result) continue;
+
+				var translated = template.target;
+				template.placeholders.forEach(function replacePlaceholder(name, offset) {
+					translated = translated.replace(
+						"{" + name + "}",
+						translateValue(result[offset + 1]),
+					);
+				});
+				return translated;
+			}
+
+			return value
+				.replace(/^All Categories\b/, "全部分类")
+				.replace(/^All Tags\b/, "全部标签")
+				.replace(/(\d[\d,.]*k?)\s+posts?\b/gi, "$1 篇文章")
+				.replace(/(\d[\d,.]*k?)\s+categories?\b/gi, "$1 个分类")
+				.replace(/(\d[\d,.]*k?)\s+tags?\b/gi, "$1 个标签")
+				.replace(/(\d[\d,.]*k?)\s+words?\b/gi, "$1 字")
+				.replace(/(\d[\d,.]*k?)\s+minutes?\b/gi, "$1 分钟");
+		}
+
+		function isSkipped(node) {
+			var parent =
+				node.nodeType === Node.ELEMENT_NODE
+					? node
+					: node.parentElement;
+			return Boolean(
+				parent &&
+					parent.closest(
+						"[data-i18n-skip], script, style, noscript, template, [data-lang-en][data-lang-zh]",
+					),
+			);
+		}
+
+		function applyOwnedElements(root, language) {
+			var elements = [];
+			if (root.nodeType === Node.ELEMENT_NODE && root.matches("[data-lang-en][data-lang-zh]")) {
+				elements.push(root);
+			}
+			if (root.querySelectorAll) {
+				elements.push.apply(
+					elements,
+					root.querySelectorAll("[data-lang-en][data-lang-zh]"),
+				);
+			}
+
+			elements.forEach(function applyOwnedText(element) {
+				if (element.closest("[data-i18n-skip]")) return;
+				var nextText =
+					language === "zh-CN"
+						? element.getAttribute("data-lang-zh")
+						: element.getAttribute("data-lang-en");
+				if (element.textContent !== nextText) {
+					element.textContent = nextText;
+				}
+			});
+
+			var ariaElements = [];
+			if (
+				root.nodeType === Node.ELEMENT_NODE &&
+				root.matches("[data-lang-aria-en][data-lang-aria-zh]")
+			) {
+				ariaElements.push(root);
+			}
+			if (root.querySelectorAll) {
+				ariaElements.push.apply(
+					ariaElements,
+					root.querySelectorAll("[data-lang-aria-en][data-lang-aria-zh]"),
+				);
+			}
+			ariaElements.forEach(function applyOwnedAria(element) {
+				element.setAttribute(
+					"aria-label",
+					language === "zh-CN"
+						? element.getAttribute("data-lang-aria-zh")
+						: element.getAttribute("data-lang-aria-en"),
+				);
+			});
+		}
+
+		function applyTextNodes(root, language) {
+			if (!document.body || isSkipped(root)) return;
+			var walker = document.createTreeWalker(
+				root,
+				NodeFilter.SHOW_TEXT,
+				{
+					acceptNode: function acceptTextNode(node) {
+						if (!node.nodeValue || !node.nodeValue.trim() || isSkipped(node)) {
+							return NodeFilter.FILTER_REJECT;
+						}
+						return NodeFilter.FILTER_ACCEPT;
+					},
+				},
+			);
+			var nodes = [];
+			var current;
+			while ((current = walker.nextNode())) nodes.push(current);
+
+			nodes.forEach(function applyText(node) {
+				if (!textOriginals.has(node)) {
+					textOriginals.set(node, node.nodeValue);
+				}
+				var englishValue = textOriginals.get(node);
+				if (language === "en") {
+					node.nodeValue = englishValue;
+					return;
+				}
+
+				var parts = englishValue.match(/^(\s*)([\s\S]*?)(\s*)$/);
+				if (!parts) return;
+				node.nodeValue =
+					parts[1] + translateValue(parts[2]) + parts[3];
+			});
+		}
+
+		function applyAttributes(root, language) {
+			var elements = [];
+			if (root.nodeType === Node.ELEMENT_NODE) elements.push(root);
+			if (root.querySelectorAll) {
+				elements.push.apply(elements, root.querySelectorAll("*"));
+			}
+
+			elements.forEach(function applyElementAttributes(element) {
+				if (element.closest("[data-i18n-skip]")) return;
+				var originals = attributeOriginals.get(element);
+				if (!originals) {
+					originals = new Map();
+					attributeOriginals.set(element, originals);
+				}
+
+				supportedAttributes.forEach(function applyAttribute(attribute) {
+					if (!element.hasAttribute(attribute)) return;
+					if (!originals.has(attribute)) {
+						originals.set(attribute, element.getAttribute(attribute));
+					}
+					var englishValue = originals.get(attribute);
+					element.setAttribute(
+						attribute,
+						language === "zh-CN"
+							? translateValue(englishValue)
+							: englishValue,
+					);
+				});
+			});
+		}
+
+		function updateToggle(language) {
+			document.querySelectorAll("[data-language-toggle]").forEach(function updateButton(button) {
+				var label = button.querySelector("[data-language-toggle-label]");
+				var isChinese = language === "zh-CN";
+				var nextLabel = isChinese ? "中文" : "English";
+				if (label && label.textContent !== nextLabel) {
+					label.textContent = nextLabel;
+				}
+				button.setAttribute(
+					"aria-label",
+					isChinese ? "切换到英文" : "Switch to Chinese",
+				);
+				button.setAttribute(
+					"title",
+					isChinese ? "切换到英文" : "Switch to Chinese",
+				);
+				button.setAttribute("aria-pressed", isChinese ? "true" : "false");
+			});
+		}
+
+		function translateDocumentTitle(language) {
+			var storedEnglishTitle =
+				document.documentElement.getAttribute("data-title-en");
+			var storedChineseTitle = storedEnglishTitle
+				? storedEnglishTitle
+						.split(" - ")
+						.map(translateValue)
+						.join(" - ")
+				: "";
+
+			if (
+				!storedEnglishTitle ||
+				(document.title !== storedEnglishTitle &&
+					document.title !== storedChineseTitle)
+			) {
+				storedEnglishTitle = document.title;
+				document.documentElement.setAttribute(
+					"data-title-en",
+					storedEnglishTitle,
+				);
+			}
+
+			document.title =
+				language === "zh-CN"
+					? storedEnglishTitle
+							.split(" - ")
+							.map(translateValue)
+							.join(" - ")
+					: storedEnglishTitle;
+		}
+
+		function applyLanguage(language, root) {
+			if (applyingLanguage) return;
+			applyingLanguage = true;
+			var scope = root || document.body;
+			var normalized = language === "zh-CN" ? "zh-CN" : "en";
+
+			document.documentElement.dataset.siteLang = normalized;
+			document.documentElement.lang = normalized === "zh-CN" ? "zh-CN" : "en";
+
+			if (scope) {
+				applyOwnedElements(scope, normalized);
+				applyTextNodes(scope, normalized);
+				applyAttributes(scope, normalized);
+			}
+			updateToggle(normalized);
+			translateDocumentTitle(normalized);
+			document.documentElement.classList.remove("language-pending");
+			applyingLanguage = false;
+			document.dispatchEvent(
+				new CustomEvent("site-language-change", {
+					detail: { language: normalized },
+				}),
+			);
+		}
+
+		function setLanguage(language) {
+			var normalized = language === "zh-CN" ? "zh-CN" : "en";
+			try {
+				localStorage.setItem("site-language", normalized);
+			} catch (_error) {}
+			applyLanguage(normalized, document.body);
+		}
+
+		function refresh() {
+			applyLanguage(getStoredLanguage(), document.body);
+		}
+
+		document.addEventListener("click", function handleLanguageToggle(event) {
+			var button = event.target.closest("[data-language-toggle]");
+			if (!button) return;
+			var current =
+				document.documentElement.dataset.siteLang === "zh-CN"
+					? "zh-CN"
+					: "en";
+			setLanguage(current === "zh-CN" ? "en" : "zh-CN");
+		});
+
+		document.addEventListener("swup:contentReplaced", function onContentReplaced() {
+			window.setTimeout(refresh, 0);
+		});
+		document.addEventListener("astro:page-load", refresh);
+
+		window.__nextHopLanguageManager = {
+			refresh: refresh,
+			setLanguage: setLanguage,
+			getLanguage: function getLanguage() {
+				return document.documentElement.dataset.siteLang === "zh-CN"
+					? "zh-CN"
+					: "en";
+			},
+		};
+
+		refresh();
+	})();
+</script>
+
+<style is:global>
+	html:not([data-site-lang="zh-CN"]) .language-content--zh,
+	html[data-site-lang="zh-CN"] .language-content--en {
+		display: none !important;
+	}
+
+	html.language-pending body {
+		visibility: hidden;
+	}
+</style>

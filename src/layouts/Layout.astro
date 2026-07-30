@@ -5,6 +5,7 @@ import MicrosoftClarity from "@components/analytics/MicrosoftClarity.astro";
 import UmamiAnalytics from "@components/analytics/UmamiAnalytics.astro";
 import FancyboxManager from "@components/features/FancyboxManager.astro";
 import FontSetup from "@components/features/FontSetup.astro";
+import LanguageManager from "@components/features/LanguageManager.astro";
 import MusicManager from "@components/features/MusicManager.astro";
 import SakuraEffect from "@components/features/SakuraEffect.astro";
 import ConfigCarrier from "@components/layout/ConfigCarrier.astro";
@@ -90,9 +91,22 @@ const siteLang = lang.replace("_", "-");
 ---
 
 <!doctype html>
-<html lang={siteLang} class="bg-(--page-bg) text-[14px] md:text-[16px]" data-wallpaper-mode={backgroundWallpaper.mode}>
+<html lang={siteLang} class="bg-(--page-bg) text-[14px] md:text-[16px]" data-wallpaper-mode={backgroundWallpaper.mode} data-site-lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>
+      (function restorePreferredLanguage() {
+        try {
+          var language = localStorage.getItem("site-language") === "zh-CN" ? "zh-CN" : "en";
+          document.documentElement.dataset.siteLang = language;
+          document.documentElement.lang = language;
+          if (language === "zh-CN") document.documentElement.classList.add("language-pending");
+        } catch (_error) {
+          document.documentElement.dataset.siteLang = "en";
+          document.documentElement.lang = "en";
+        }
+      })();
+    </script>
     <link
       rel="preload"
       href="/assets/fonts/AaZongYiYuan-nav.woff2"
@@ -600,7 +614,7 @@ const siteLang = lang.replace("_", "-");
     <MusicManager />
     <slot />
 
-
+    <LanguageManager />
 
     <!-- Sakura Effect -->
     <SakuraEffect />

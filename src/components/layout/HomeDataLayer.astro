@@ -93,8 +93,8 @@ const skills = [
 <section class="home-data-layer" id="data-matrix" aria-labelledby="data-matrix-title">
 	<header class="home-data-layer__heading">
 		<span>CONTEXT</span>
-		<small>站点数据</small>
-		<h2 id="data-matrix-title">能力矩阵</h2>
+		<small data-lang-en="Site Data" data-lang-zh="站点数据">Site Data</small>
+		<h2 id="data-matrix-title" data-lang-en="Capability Matrix" data-lang-zh="能力矩阵">Capability Matrix</h2>
 	</header>
 
 	<div class="home-data-layer__row home-data-layer__row--top">
@@ -111,8 +111,13 @@ const skills = [
 			<div class="data-metric-card__wash"></div>
 			<div class="data-metric-card__content">
 				<span>VISITS</span>
-				<h3>站点访问</h3>
-				<p>访客 <strong>待接入</strong> / 浏览 <strong>待接入</strong></p>
+				<h3 data-lang-en="Site Visits" data-lang-zh="站点访问">Site Visits</h3>
+				<p>
+					<span data-lang-en="Visitors" data-lang-zh="访客">Visitors</span>
+					<strong data-lang-en="Pending" data-lang-zh="待接入">Pending</strong> /
+					<span data-lang-en="Views" data-lang-zh="浏览">Views</span>
+					<strong data-lang-en="Pending" data-lang-zh="待接入">Pending</strong>
+				</p>
 			</div>
 		</article>
 
@@ -129,11 +134,11 @@ const skills = [
 			<div class="data-metric-card__wash"></div>
 			<div class="data-metric-card__content">
 				<span>ARCHIVE</span>
-				<h3>文章档案</h3>
+				<h3 data-lang-en="Article Archive" data-lang-zh="文章档案">Article Archive</h3>
 				<p>
-					<strong>{posts.length}</strong> 篇文章 /
-					<strong>{categoryCount}</strong> 个分类 /
-					<strong>{tagCount}</strong> 个标签
+					<strong>{posts.length}</strong> <span data-lang-en="posts" data-lang-zh="篇文章">posts</span> /
+					<strong>{categoryCount}</strong> <span data-lang-en="categories" data-lang-zh="个分类">categories</span> /
+					<strong>{tagCount}</strong> <span data-lang-en="tags" data-lang-zh="个标签">tags</span>
 				</p>
 			</div>
 		</a>
@@ -151,10 +156,10 @@ const skills = [
 		/>
 		<div class="data-band__intro">
 			<span>CONTACT</span>
-			<h3>基础设施</h3>
-			<p>从域名、边缘网络到内容构建，保持链路简单、透明、可验证。</p>
+			<h3 data-lang-en="Infrastructure" data-lang-zh="基础设施">Infrastructure</h3>
+			<p data-lang-en="From domains and edge networks to content builds, keep every path simple, transparent, and verifiable." data-lang-zh="从域名、边缘网络到内容构建，保持链路简单、透明、可验证。">From domains and edge networks to content builds, keep every path simple, transparent, and verifiable.</p>
 		</div>
-		<div class="matrix-loop" aria-label="站点基础设施">
+		<div class="matrix-loop" aria-label="Site infrastructure" data-lang-aria-en="Site infrastructure" data-lang-aria-zh="站点基础设施">
 			<div class="matrix-loop__track">
 				{[...infrastructure, ...infrastructure].map((item, index) => (
 					<span
@@ -191,10 +196,10 @@ const skills = [
 		/>
 		<div class="data-band__intro">
 			<span>SKILLS</span>
-			<h3>技能图标</h3>
-			<p>网络、系统、自动化与可观测性工具在同一条工程链路上循环。</p>
+			<h3 data-lang-en="Skill Icons" data-lang-zh="技能图标">Skill Icons</h3>
+			<p data-lang-en="Networking, systems, automation, and observability tools move through one engineering workflow." data-lang-zh="网络、系统、自动化与可观测性工具在同一条工程链路上循环。">Networking, systems, automation, and observability tools move through one engineering workflow.</p>
 		</div>
-		<div class="matrix-loop matrix-loop--skills" aria-label="专业技能">
+		<div class="matrix-loop matrix-loop--skills" aria-label="Professional skills" data-lang-aria-en="Professional skills" data-lang-aria-zh="专业技能">
 			<div class="matrix-loop__track matrix-loop__track--reverse">
 				{[...skills, ...skills].map((item, index) => (
 					<span

@@ -1,10 +1,11 @@
 ---
-title: "IDC 网络出口路由器替换项目复盘：从 CR16000 到 CR19000"
+title: "IDC Edge Router Replacement Project: Post-Implementation Review"
 published: 2026-07-26
-description: "一次核心 IDC 双机出口路由器替换实践，覆盖现网梳理、配置治理、实验室验证、四阶段割接、跨团队协同与回滚控制。"
+description: "A core IDC dual-router egress replacement covering production baseline analysis, configuration cleanup, lab validation, a four-stage cutover, cross-team coordination, and rollback control."
 image: "./cover.webp"
-tags: [IDC, BGP, 网络割接, 路由器替换, H3C, IPv6]
-category: 项目经历
+tags: [IDC, BGP, Network Cutover, Router Replacement, H3C, IPv6]
+category: Project Experience
+lang: en
 draft: false
 pinned: true
 author: ZeSheng Huang

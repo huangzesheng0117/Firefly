@@ -1,6 +1,6 @@
 # Packet & Path Project Status
 
-Last updated: 2026-07-25
+Last updated: 2026-07-29
 
 ## Purpose
 
@@ -19,6 +19,7 @@ Packet & Path is ZeSheng Huang's public network engineering portfolio. It is int
 | Production domain | Live | Both `https://next-hop.tech/` and `https://www.next-hop.tech/` are bound to the `firefly` Worker as Custom Domains. |
 | Performance baseline | Accepted | Mainland China and global test nodes currently load in about 1.5-3 seconds; IP optimization is deferred and documented only as a contingency. |
 | Maintenance guide | Complete | The local edit, validation, GitHub, Cloudflare, rollback, and upstream sync workflow is documented in `docs/MAINTENANCE.md`. |
+| Incident log | Complete | Confirmed site faults, root causes, fixes, validation steps, and regression checks are documented in `docs/ISSUE_LOG.md`. |
 | Writing standard | Complete | Frontmatter, naming, media, Markdown extensions, SEO, link stability, quality, and security rules are documented in `docs/MAINTENANCE.md`. |
 | Reference archive | Complete | 18 fqzlr.com posts are archived locally; full HTML and RSS content is excluded from the public repository. |
 | Content migration | In progress | The first sanitized portfolio article, `IDC 网络出口路由器替换项目复盘`, is published under `项目经历`; default Firefly demonstration posts are still present. |
@@ -36,6 +37,7 @@ Packet & Path is ZeSheng Huang's public network engineering portfolio. It is int
 | `docs/reference/` | Maintenance references that are not published as blog content. |
 | `scripts/archive-fqzlr-posts.ps1` | Refreshes the local fqzlr.com article archive. |
 | `docs/MAINTENANCE.md` | Detailed editing, validation, deployment, rollback, and upstream synchronization procedures. |
+| `docs/ISSUE_LOG.md` | Confirmed production incidents, fixes, and regression-prevention checks. |
 
 ## Deployment Flow
 
@@ -45,7 +47,7 @@ Packet & Path is ZeSheng Huang's public network engineering portfolio. It is int
 4. Cloudflare pulls the repository, builds the static site, and deploys Worker assets.
 5. Cloudflare serves the production site through `www.next-hop.tech`.
 
-Detailed commands and troubleshooting are maintained in [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md).
+Detailed commands and troubleshooting are maintained in [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md). Confirmed production incidents and regression checks are maintained in [`docs/ISSUE_LOG.md`](docs/ISSUE_LOG.md).
 
 ## Local Workspace Layout
 
@@ -81,6 +83,7 @@ Pushing to `origin` does not change the upstream Firefly project. Fork updates a
 4. Establish a repeatable redaction checklist before any case is committed.
 5. Decide whether comments and analytics are needed; keep them disabled until privacy requirements are defined.
 6. Keep `docs/MAINTENANCE.md` current when the build, deployment, domain, or editing workflow changes.
+7. Record confirmed production faults and their regression checks in `docs/ISSUE_LOG.md`.
 
 ## Security Rules
 
