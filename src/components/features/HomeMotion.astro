@@ -1,0 +1,250 @@
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	type HomeMotionWindow = Window & {
+		__packetPathHomeBootstrapped?: boolean;
+		__packetPathHomeCleanup?: () => void;
+		__packetPathHomeInit?: () => void;
+	};
+
+	const homeWindow = window as HomeMotionWindow;
+
+	const initHomeMotion = () => {
+		homeWindow.__packetPathHomeCleanup?.();
+
+		const root = document.querySelector<HTMLElement>(".professional-home");
+		const hero = document.querySelector<HTMLElement>(".route-hero");
+		if (!root || !hero) return;
+
+		const media = gsap.matchMedia();
+		const select = gsap.utils.selector(root);
+
+		media.add(
+			{
+				isDesktop: "(min-width: 901px)",
+				isMobile: "(max-width: 900px)",
+				reduceMotion: "(prefers-reduced-motion: reduce)",
+			},
+			(context) => {
+				const { isDesktop, reduceMotion } = context.conditions as {
+					isDesktop: boolean;
+					isMobile: boolean;
+					reduceMotion: boolean;
+				};
+
+				const introTargets = select(".route-hero__word, .route-stage");
+
+				if (reduceMotion) {
+					gsap.set(introTargets, { autoAlpha: 1, clearProps: "transform" });
+					gsap.set(select(".data-metric-card, .data-band"), {
+						autoAlpha: 1,
+						clearProps: "transform",
+					});
+					document.documentElement.classList.add("home-motion-ready");
+					return;
+				}
+
+				gsap.set(select(".route-hero__word"), {
+					autoAlpha: 0,
+					yPercent: 118,
+					rotation: 1.5,
+				});
+				gsap.set(select(".route-stage"), {
+					autoAlpha: 0,
+					scale: isDesktop ? 0.88 : 0.96,
+					x: isDesktop ? 44 : 0,
+				});
+				gsap.set(select(".route-node, .route-trace, .route-orbit"), {
+					autoAlpha: 0,
+				});
+				const intro = gsap.timeline({
+					defaults: { duration: 0.72, ease: "power3.out" },
+					onStart: () =>
+						document.documentElement.classList.add("home-motion-ready"),
+				});
+
+				intro
+					.to(select(".route-stage"), { autoAlpha: 1, scale: 1, x: 0 }, 0)
+					.to(select(".route-trace"), { autoAlpha: 1, duration: 0.5 }, 0.18)
+					.to(
+						select(".route-node"),
+						{ autoAlpha: 1, duration: 0.5, stagger: 0.07 },
+						0.24,
+					)
+					.to(select(".route-orbit"), { autoAlpha: 1, duration: 0.65 }, 0.28)
+					.to(
+						select(".route-hero__word"),
+						{
+							autoAlpha: 1,
+							yPercent: 0,
+							rotation: 0,
+							duration: 0.86,
+							stagger: 0.11,
+						},
+						0.42,
+					);
+
+				gsap.to(select(".route-orbit"), {
+					rotation: 360,
+					svgOrigin: "332 284",
+					duration: 22,
+					ease: "none",
+					repeat: -1,
+				});
+
+				gsap.to(select(".route-trace--flow"), {
+					strokeDashoffset: -84,
+					duration: 2.2,
+					ease: "none",
+					repeat: -1,
+				});
+
+				gsap.to(select(".route-stage__live i"), {
+					autoAlpha: 0.35,
+					duration: 0.75,
+					ease: "sine.inOut",
+					repeat: -1,
+					yoyo: true,
+				});
+
+				const packets = gsap.timeline({ repeat: -1, repeatDelay: 0.45 });
+				packets
+					.set(select(".route-packet"), { autoAlpha: 0, x: 0, y: 0 })
+					.to(select(".route-packet--primary"), { autoAlpha: 1, duration: 0.12 })
+					.to(
+						select(".route-packet--primary"),
+						{ x: 236, y: -146, duration: 0.92, ease: "power2.inOut" },
+						"<",
+					)
+					.to(select(".route-packet--primary"), {
+						x: 444,
+						y: -266,
+						duration: 0.82,
+						ease: "power2.inOut",
+					})
+					.to(select(".route-packet--primary"), { autoAlpha: 0, duration: 0.2 })
+					.to(select(".route-packet--echo"), { autoAlpha: 0.82, duration: 0.12 }, 0.38)
+					.to(
+						select(".route-packet--echo"),
+						{ x: 236, y: -146, duration: 0.92, ease: "power2.inOut" },
+						0.38,
+					)
+					.to(select(".route-packet--echo"), {
+						x: 444,
+						y: -266,
+						duration: 0.82,
+						ease: "power2.inOut",
+					})
+					.to(select(".route-packet--echo"), { autoAlpha: 0, duration: 0.2 });
+
+				gsap
+					.timeline({
+						scrollTrigger: {
+							id: "home-hero-scrub",
+							trigger: hero,
+							start: "top top",
+							end: "bottom top",
+							scrub: 0.6,
+						},
+					})
+					.to(select(".route-hero__copy"), { yPercent: -8, autoAlpha: 0.24 }, 0)
+					.to(select(".route-stage"), { yPercent: 7, scale: 0.94 }, 0)
+					.to(select(".route-hero__grid"), { yPercent: 12 }, 0);
+
+				gsap.from(select(".home-data-layer__heading > *"), {
+					autoAlpha: 0,
+					y: 38,
+					duration: 0.72,
+					ease: "power3.out",
+					stagger: 0.08,
+					scrollTrigger: {
+						id: "home-data-heading",
+						trigger: select(".home-data-layer__heading")[0],
+						start: "top 82%",
+						once: true,
+					},
+				});
+
+				const revealItems = select<HTMLElement>(".data-metric-card, .data-band");
+				gsap.set(revealItems, { autoAlpha: 0, y: 42 });
+				ScrollTrigger.batch(revealItems, {
+					start: "top 86%",
+					once: true,
+					interval: 0.08,
+					batchMax: 3,
+					onEnter: (batch) =>
+						gsap.to(batch, {
+							autoAlpha: 1,
+							y: 0,
+							duration: 0.68,
+							ease: "power3.out",
+							stagger: 0.1,
+							overwrite: "auto",
+						}),
+				});
+
+				if (isDesktop) {
+					const cleanups: Array<() => void> = [];
+					const visual = select<SVGElement>(".route-map__parallax")[0];
+					let bounds = hero.getBoundingClientRect();
+					const xTo = gsap.quickTo(visual, "x", {
+						duration: 0.7,
+						ease: "power3.out",
+					});
+					const yTo = gsap.quickTo(visual, "y", {
+						duration: 0.7,
+						ease: "power3.out",
+					});
+					const updateBounds = () => {
+						bounds = hero.getBoundingClientRect();
+					};
+					const handlePointer = (event: PointerEvent) => {
+						xTo(((event.clientX - bounds.left) / bounds.width - 0.5) * 16);
+						yTo(((event.clientY - bounds.top) / bounds.height - 0.5) * 12);
+					};
+					hero.addEventListener("pointerenter", updateBounds, { passive: true });
+					hero.addEventListener("pointermove", handlePointer, { passive: true });
+					window.addEventListener("resize", updateBounds, { passive: true });
+					cleanups.push(() => {
+						hero.removeEventListener("pointerenter", updateBounds);
+						hero.removeEventListener("pointermove", handlePointer);
+						window.removeEventListener("resize", updateBounds);
+					});
+
+					return () => {
+						cleanups.forEach((cleanup) => cleanup());
+					};
+				}
+			},
+			root,
+		);
+
+		homeWindow.__packetPathHomeCleanup = () => {
+			media.revert();
+			ScrollTrigger.getAll()
+				.filter((trigger) => trigger.vars.id?.startsWith("home-"))
+				.forEach((trigger) => trigger.kill());
+			homeWindow.__packetPathHomeCleanup = undefined;
+		};
+
+		requestAnimationFrame(() => ScrollTrigger.refresh());
+	};
+
+	const scheduleHomeMotion = () => requestAnimationFrame(() => homeWindow.__packetPathHomeInit?.());
+	homeWindow.__packetPathHomeInit = initHomeMotion;
+
+	if (!homeWindow.__packetPathHomeBootstrapped) {
+		homeWindow.__packetPathHomeBootstrapped = true;
+		document.addEventListener("astro:page-load", scheduleHomeMotion);
+		document.addEventListener("firefly:page:loaded", scheduleHomeMotion);
+		document.addEventListener("swup:contentReplaced", scheduleHomeMotion);
+		document.addEventListener("swup:visit:start", () =>
+			homeWindow.__packetPathHomeCleanup?.(),
+		);
+	}
+
+	scheduleHomeMotion();
+</script>

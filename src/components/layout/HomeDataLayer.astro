@@ -34,10 +34,10 @@ const formatCompact = (value: number) => {
 
 const infrastructure = [
 	{
-    logo: "/assets/images/logos/transparent/cisco.png",
-    label: "Cisco",
-    visualWidth: 66,
-    visualHeight: 40,
+		logo: "/assets/images/logos/transparent/cisco.png",
+		label: "Cisco",
+		visualWidth: 66,
+		visualHeight: 40,
 	},
 	{
 		logo: "/assets/images/logos/transparent/huawei.png",
@@ -46,10 +46,10 @@ const infrastructure = [
 		visualHeight: 44,
 	},
 	{
-    logo: "/assets/images/logos/transparent/h3c.png",
-    label: "H3C",
-    visualWidth: 76,
-    visualHeight: 35,
+		logo: "/assets/images/logos/transparent/h3c.png",
+		label: "H3C",
+		visualWidth: 76,
+		visualHeight: 35,
 	},
 	{
 		logo: "/assets/images/logos/transparent/fortigate.png",
@@ -58,10 +58,10 @@ const infrastructure = [
 		visualHeight: 41,
 	},
 	{
-    logo: "/assets/images/logos/transparent/hillstone.png",
-    label: "Hillstone",
-    visualWidth: 76,
-    visualHeight: 35,
+		logo: "/assets/images/logos/transparent/hillstone.png",
+		label: "Hillstone",
+		visualWidth: 76,
+		visualHeight: 35,
 	},
 	{
 		logo: "/assets/images/logos/transparent/nvidia.png",
@@ -92,13 +92,13 @@ const skills = [
 
 <section class="home-data-layer" id="data-matrix" aria-labelledby="data-matrix-title">
 	<header class="home-data-layer__heading">
-		<span>CONTEXT</span>
-		<small data-lang-en="Site Data" data-lang-zh="站点数据">Site Data</small>
-		<h2 id="data-matrix-title" data-lang-en="Capability Matrix" data-lang-zh="能力矩阵">Capability Matrix</h2>
+		<div class="home-data-layer__heading-copy">
+			<h2 id="data-matrix-title" data-lang-en="Field Notes" data-lang-zh="现场笔记">Field Notes</h2>
+		</div>
 	</header>
 
-	<div class="home-data-layer__row home-data-layer__row--top">
-		<article class="data-metric-card">
+	<div class="home-data-layer__matrix">
+		<a class="data-metric-card data-metric-card--journal" href={url("/posts/")}>
 			<Picture
 				class="data-metric-card__image"
 				src={networkImage}
@@ -110,18 +110,13 @@ const skills = [
 			/>
 			<div class="data-metric-card__wash"></div>
 			<div class="data-metric-card__content">
-				<span>VISITS</span>
-				<h3 data-lang-en="Site Visits" data-lang-zh="站点访问">Site Visits</h3>
-				<p>
-					<span data-lang-en="Visitors" data-lang-zh="访客">Visitors</span>
-					<strong data-lang-en="Pending" data-lang-zh="待接入">Pending</strong> /
-					<span data-lang-en="Views" data-lang-zh="浏览">Views</span>
-					<strong data-lang-en="Pending" data-lang-zh="待接入">Pending</strong>
-				</p>
+				<span>JOURNAL</span>
+				<h3 data-lang-en="Production Notes" data-lang-zh="生产网络笔记">Production Notes</h3>
+				<p data-lang-en="Routing / incidents / data center" data-lang-zh="路由 / 故障 / 数据中心">Routing / incidents / data center</p>
 			</div>
-		</article>
+		</a>
 
-		<a class="data-metric-card" href={url("/archive/")}>
+		<a class="data-metric-card data-metric-card--archive" href={url("/archive/")}>
 			<Picture
 				class="data-metric-card__image data-metric-card__image--right"
 				src={serverImage}
@@ -142,9 +137,8 @@ const skills = [
 				</p>
 			</div>
 		</a>
-	</div>
 
-	<div class="data-band">
+	<div class="data-band data-band--network">
 		<Picture
 			class="data-band__image"
 			src={opticImage}
@@ -155,11 +149,11 @@ const skills = [
 			loading="lazy"
 		/>
 		<div class="data-band__intro">
-			<span>CONTACT</span>
-			<h3 data-lang-en="Infrastructure" data-lang-zh="基础设施">Infrastructure</h3>
-			<p data-lang-en="From domains and edge networks to content builds, keep every path simple, transparent, and verifiable." data-lang-zh="从域名、边缘网络到内容构建，保持链路简单、透明、可验证。">From domains and edge networks to content builds, keep every path simple, transparent, and verifiable.</p>
+			<span>INFRASTRUCTURE</span>
+			<h3 data-lang-en="Network Stack" data-lang-zh="网络技术栈">Network Stack</h3>
+			<p data-lang-en="From the access layer to the edge, every path should remain observable, explainable, and recoverable." data-lang-zh="从接入层到网络边缘，让每一条路径都可观测、可解释、可恢复。">From the access layer to the edge, every path should remain observable, explainable, and recoverable.</p>
 		</div>
-		<div class="matrix-loop" aria-label="Site infrastructure" data-lang-aria-en="Site infrastructure" data-lang-aria-zh="站点基础设施">
+		<div class="matrix-loop" aria-label="Network infrastructure" data-lang-aria-en="Network infrastructure" data-lang-aria-zh="网络基础设施">
 			<div class="matrix-loop__track">
 				{[...infrastructure, ...infrastructure].map((item, index) => (
 					<span
@@ -195,11 +189,11 @@ const skills = [
 			loading="lazy"
 		/>
 		<div class="data-band__intro">
-			<span>SKILLS</span>
-			<h3 data-lang-en="Skill Icons" data-lang-zh="技能图标">Skill Icons</h3>
-			<p data-lang-en="Networking, systems, automation, and observability tools move through one engineering workflow." data-lang-zh="网络、系统、自动化与可观测性工具在同一条工程链路上循环。">Networking, systems, automation, and observability tools move through one engineering workflow.</p>
+			<span>TOOLCHAIN</span>
+			<h3 data-lang-en="Engineering Tools" data-lang-zh="工程工具链">Engineering Tools</h3>
+			<p data-lang-en="Networking, systems, automation, and observability tools share one verification-first workflow." data-lang-zh="网络、系统、自动化与可观测工具，共用一套验证优先的工程流程。">Networking, systems, automation, and observability tools share one verification-first workflow.</p>
 		</div>
-		<div class="matrix-loop matrix-loop--skills" aria-label="Professional skills" data-lang-aria-en="Professional skills" data-lang-aria-zh="专业技能">
+		<div class="matrix-loop matrix-loop--skills" aria-label="Engineering tools" data-lang-aria-en="Engineering tools" data-lang-aria-zh="工程工具">
 			<div class="matrix-loop__track matrix-loop__track--reverse">
 				{[...skills, ...skills].map((item, index) => (
 					<span
@@ -221,6 +215,7 @@ const skills = [
 				))}
 			</div>
 		</div>
+	</div>
 	</div>
 
 	<footer class="home-data-layer__foot">

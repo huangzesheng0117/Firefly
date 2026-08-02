@@ -1,73 +1,117 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { Picture } from "astro:assets";
-import HomeDataLayer from "@/components/layout/HomeDataLayer.astro";
+import HomeMotion from "@/components/features/HomeMotion.astro";
 import Footer from "@/components/layout/Footer.astro";
+import HomeDataLayer from "@/components/layout/HomeDataLayer.astro";
 import Navbar from "@/components/layout/Navbar.astro";
-import heroImage from "@/assets/images/professional/network-operations.webp";
 import Layout from "@/layouts/Layout.astro";
+import "@/styles/home-motion.css";
 
 export const getStaticPaths = (() => [
 	{
 		params: { page: undefined },
 	},
 ]) satisfies GetStaticPaths;
-
-const titleText = "next-hop.tech";
-const titleLetters = Array.from(titleText);
-const titleColors = [
-	"#f8fbff",
-	"#e7f9ff",
-	"#c9f3fb",
-	"#8fe5f4",
-	"#4fd2eb",
-	"#24b9dc",
-];
 ---
 
 <Layout
-	title="Network Engineering Practice"
-	description="ZeSheng Huang's network engineering blog, documenting network architecture, production incidents, data center practices, and automation."
+	title="Network Engineering Field Notes"
+	description="Packet & Path is ZeSheng Huang's network engineering field journal: routing, data center operations, automation, and production lessons."
 >
 	<header class="home-navbar-shell">
 		<Navbar />
 	</header>
 
 	<main class="professional-home">
-		<section class="home-hero" id="home-hero" aria-labelledby="home-hero-title">
-			<div class="home-hero__media" aria-hidden="true">
-				<Picture
-					src={heroImage}
-					alt=""
-					formats={["avif", "webp"]}
-					widths={[768, 1280, 1920]}
-					sizes="100vw"
-					loading="eager"
-					fetchpriority="high"
-				/>
-			</div>
-			<div class="home-hero__veil"></div>
-			<div class="home-hero__grid"></div>
-			<div class="home-hero__scanline"></div>
+		<section class="route-hero" id="home-hero" aria-labelledby="home-hero-title">
+			<div class="route-hero__grid" aria-hidden="true"></div>
+			<div class="route-hero__glow route-hero__glow--cyan" aria-hidden="true"></div>
+			<div class="route-hero__glow route-hero__glow--amber" aria-hidden="true"></div>
 
-			<div class="home-hero__content">
-				<h1
-					id="home-hero-title"
-					class="home-hero__name home-hero__name--css-hatch"
-					aria-label={titleText}
-				>
-					{
-						titleLetters.map((letter, index) => (
-							<span
-								class="home-hero__name-letter"
-								style={`--letter-color:${titleColors[index % titleColors.length]};--letter-index:${index}`}
-								aria-hidden="true"
-							>
-								{letter === " " ? "\u00a0" : letter}
-							</span>
-						))
-					}
-				</h1>
+			<div class="route-hero__shell">
+				<div class="route-hero__copy">
+					<h1 id="home-hero-title" class="route-hero__title">
+						<span class="route-hero__word route-hero__word--packet">Packet</span>
+						<span class="route-hero__word route-hero__word--path"><i>&amp;</i> Path</span>
+					</h1>
+				</div>
+
+				<div class="route-stage" aria-hidden="true">
+					<header class="route-stage__header">
+						<span>ROUTE CONVERGENCE</span>
+						<span class="route-stage__live"><i></i> LIVE</span>
+					</header>
+
+					<svg class="route-map" viewBox="0 0 680 560" role="presentation">
+						<defs>
+							<marker id="route-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+								<path d="M 0 0 L 10 5 L 0 10 z"></path>
+							</marker>
+						</defs>
+
+						<g class="route-map__parallax">
+							<path class="route-trace route-trace--muted" d="M96 430 C170 424 226 320 332 284 C414 254 444 188 540 164"></path>
+							<path class="route-trace route-trace--muted" d="M96 430 C190 480 250 472 332 284 C426 288 518 350 624 324"></path>
+							<path class="route-trace route-trace--muted" d="M194 304 C248 252 282 268 332 284"></path>
+							<path class="route-trace route-trace--muted" d="M332 284 C398 366 468 430 572 452"></path>
+
+							<path class="route-trace route-trace--active" marker-end="url(#route-arrow)" d="M96 430 C170 424 226 320 332 284 C414 254 444 188 540 164"></path>
+							<path class="route-trace route-trace--flow" d="M96 430 C170 424 226 320 332 284 C414 254 444 188 540 164"></path>
+
+							<g class="route-orbit">
+								<circle cx="332" cy="284" r="92"></circle>
+								<circle cx="332" cy="284" r="112"></circle>
+								<path d="M332 172 A112 112 0 0 1 444 284"></path>
+							</g>
+
+							<g class="route-node route-node--origin" transform="translate(96 430)">
+								<circle class="route-node__halo" r="24"></circle>
+								<circle class="route-node__core" r="7"></circle>
+								<text x="-12" y="43">ORIGIN</text>
+								<text x="-12" y="58">10.24.8.14</text>
+							</g>
+							<g class="route-node" transform="translate(194 304)">
+								<circle class="route-node__halo" r="18"></circle>
+								<circle class="route-node__core" r="5"></circle>
+								<text x="-8" y="36">ACCESS</text>
+							</g>
+							<g class="route-node route-node--core" transform="translate(332 284)">
+								<circle class="route-node__halo" r="42"></circle>
+								<circle class="route-node__core" r="11"></circle>
+								<text x="-18" y="62">CORE</text>
+								<text x="-18" y="77">NEXT HOP</text>
+							</g>
+							<g class="route-node route-node--edge" transform="translate(540 164)">
+								<circle class="route-node__halo" r="31"></circle>
+								<circle class="route-node__core" r="8"></circle>
+								<text x="-14" y="50">EDGE</text>
+								<text x="-14" y="65">ESTABLISHED</text>
+							</g>
+							<g class="route-node" transform="translate(624 324)">
+								<circle class="route-node__halo" r="18"></circle>
+								<circle class="route-node__core" r="5"></circle>
+								<text x="-64" y="37">OBSERVE</text>
+							</g>
+							<g class="route-node" transform="translate(572 452)">
+								<circle class="route-node__halo" r="16"></circle>
+								<circle class="route-node__core" r="5"></circle>
+								<text x="-62" y="34">AUTOMATE</text>
+							</g>
+
+							<circle class="route-packet route-packet--primary" cx="96" cy="430" r="5"></circle>
+							<circle class="route-packet route-packet--echo" cx="96" cy="430" r="3"></circle>
+
+							<text class="route-map__coordinate" x="22" y="36">N 31° 13'  |  E 121° 28'</text>
+							<text class="route-map__coordinate" x="498" y="530">TTL 62  /  MTU 1500</text>
+						</g>
+					</svg>
+
+					<footer class="route-stage__footer">
+						<span><small>PROTO</small> BGP</span>
+						<span><small>NEXT HOP</small> 10.24.0.1</span>
+						<span><small>RTT</small> 18ms</span>
+					</footer>
+				</div>
 			</div>
 		</section>
 
@@ -77,4 +121,6 @@ const titleColors = [
 	<div class="home-footer">
 		<Footer />
 	</div>
+
+	<HomeMotion />
 </Layout>
