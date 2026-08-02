@@ -18,7 +18,8 @@ Packet & Path is ZeSheng Huang's public network engineering portfolio. It is int
 | Cloud deployment | Complete | Cloudflare Worker project `firefly` builds with `pnpm build` and deploys with `pnpm exec wrangler deploy`. |
 | Production domain | Live | Both `https://next-hop.tech/` and `https://www.next-hop.tech/` are bound to the `firefly` Worker as Custom Domains. |
 | Performance baseline | Accepted | Mainland China and global test nodes currently load in about 1.5-3 seconds; IP optimization is deferred and documented only as a contingency. |
-| Maintenance guide | Complete | The local edit, validation, GitHub, Cloudflare, rollback, and upstream sync workflow is documented in `docs/MAINTENANCE.md`. |
+| Maintenance guide | Complete | Local editing, content maintenance, troubleshooting, and upstream synchronization are documented in `docs/MAINTENANCE.md`. |
+| Release playbook | Complete | The mandatory GitHub push, version-branch sync, Wrangler deployment, production verification, and rollback sequence is documented in `docs/RELEASE_WORKFLOW.md`. |
 | Incident log | Complete | Confirmed site faults, root causes, fixes, validation steps, and regression checks are documented in `docs/ISSUE_LOG.md`. |
 | Writing standard | Complete | Frontmatter, naming, media, Markdown extensions, SEO, link stability, quality, and security rules are documented in `docs/MAINTENANCE.md`. |
 | Reference archive | Complete | 18 fqzlr.com posts are archived locally; full HTML and RSS content is excluded from the public repository. |
@@ -36,7 +37,8 @@ Packet & Path is ZeSheng Huang's public network engineering portfolio. It is int
 | `src/components/`, `src/styles/` | UI components and visual customization. |
 | `docs/reference/` | Maintenance references that are not published as blog content. |
 | `scripts/archive-fqzlr-posts.ps1` | Refreshes the local fqzlr.com article archive. |
-| `docs/MAINTENANCE.md` | Detailed editing, validation, deployment, rollback, and upstream synchronization procedures. |
+| `docs/MAINTENANCE.md` | Detailed editing, content maintenance, troubleshooting, and upstream synchronization procedures. |
+| `docs/RELEASE_WORKFLOW.md` | Mandatory GitHub and `next-hop.tech` production release checklist. |
 | `docs/ISSUE_LOG.md` | Confirmed production incidents, fixes, and regression-prevention checks. |
 
 ## Deployment Flow
@@ -47,7 +49,7 @@ Packet & Path is ZeSheng Huang's public network engineering portfolio. It is int
 4. Cloudflare pulls the repository, builds the static site, and deploys Worker assets.
 5. Cloudflare serves the production site through `www.next-hop.tech`.
 
-Detailed commands and troubleshooting are maintained in [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md). Confirmed production incidents and regression checks are maintained in [`docs/ISSUE_LOG.md`](docs/ISSUE_LOG.md).
+The mandatory release sequence is maintained in [`docs/RELEASE_WORKFLOW.md`](docs/RELEASE_WORKFLOW.md). Editing guidance and troubleshooting are maintained in [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md). Confirmed production incidents and regression checks are maintained in [`docs/ISSUE_LOG.md`](docs/ISSUE_LOG.md).
 
 ## Local Workspace Layout
 

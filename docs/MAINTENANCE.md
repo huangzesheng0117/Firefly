@@ -347,49 +347,17 @@ git status
 
 ## 8. 提交并推送 GitHub
 
-先检查改动：
+GitHub 提交、版本分支同步、原子推送和远端哈希核对统一按照 [`docs/RELEASE_WORKFLOW.md`](RELEASE_WORKFLOW.md) 执行。该文档是发布操作的唯一来源；本维护文档不再重复维护另一套命令。
 
-```powershell
-git status
-git diff
-```
+## 9. Cloudflare 生产部署
 
-提交并推送：
+GitHub 的 `master` 更新可能触发 Cloudflare 自动构建；Codex 的标准生产发布以 [`docs/RELEASE_WORKFLOW.md`](RELEASE_WORKFLOW.md) 中经过 `--dry-run` 的显式 Wrangler 部署和 Version ID 为完成凭据。
 
-```powershell
-git add <本次修改的文件或目录>
-git commit -m "feat: describe the change"
-git push origin master
-```
-
-常用提交前缀：
-
-- `feat:` 新文章或新功能。
-- `fix:` 故障修复。
-- `docs:` 项目文档。
-- `style:` 外观调整。
-- `chore:` 依赖或维护工作。
-
-优先明确列出要暂存的文件，不要在未检查工作区时盲目执行 `git add .`。
-
-## 9. Cloudflare 自动部署
-
-GitHub 的 `master` 更新后，Cloudflare 自动执行：
-
-```text
-Build command:  pnpm build
-Deploy command: pnpm exec wrangler deploy
-```
+固定构建与部署命令仍为 `pnpm build` 和 `pnpm exec wrangler deploy`。
 
 `wrangler.jsonc` 声明 `next-hop.tech` 和 `www.next-hop.tech` 为 Custom Domain。不要只在控制台临时添加域名而不更新配置，否则后续 Wrangler 部署可能移除未声明的域名触发器。
 
-部署检查：
-
-1. 打开 Cloudflare 控制台。
-2. 进入 `Workers & Pages` -> `firefly`。
-3. 查看最新构建和部署日志。
-4. 等待部署状态成功。
-5. 打开 `https://www.next-hop.tech/` 并强制刷新。
+部署后必须验证 `https://next-hop.tech/` 和 `https://www.next-hop.tech/`，不能只检查其中一个域名。具体缓存绕过、HTTP 检查、视觉检查和回滚步骤见统一发布文档。
 
 若页面仍是旧版本：
 

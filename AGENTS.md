@@ -29,6 +29,15 @@ There is no dedicated unit-test framework configured. Before submitting changes,
 
 Use Conventional Commits, matching the current history: `feat: ...`, `fix: ...`, and `chore: ...`. Keep commits and PRs focused on one concern. PRs should include a concise summary, linked issues when relevant, validation commands run, and screenshots for UI changes. Discuss major features or design changes in an issue or discussion before implementation.
 
+## GitHub and Production Release Workflow
+
+[`docs/RELEASE_WORKFLOW.md`](docs/RELEASE_WORKFLOW.md) is the mandatory single source of truth for GitHub pushes and production releases. Before any task that includes committing, pushing, syncing version branches, or publishing `next-hop.tech`, read that document completely and follow its sequence without skipping preflight, validation, atomic push, Wrangler dry run, deployment, and both-domain verification.
+
+- A GitHub-only request does not authorize a Cloudflare production deployment.
+- A normal direct release to the personal `origin` uses `git`; it does not require a PR or GitHub CLI unless the user explicitly asks for a PR.
+- Preserve the meanings of `master`, `blog-version-01`, and `blog-version-02`; only make versions 01 and 02 identical when the user requests that release state.
+- Never deploy from stale `dist/` output, never push mixed or unreviewed changes, and never publish secrets or private case material.
+
 ## Security & Configuration Tips
 
 Do not commit secrets, tokens, or service keys in config files. Keep deployment-specific settings in the target platform environment, and review generated files such as `dist`, `src/constants/lqips.json`, and `src/constants/icons.ts` before committing them.
