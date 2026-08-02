@@ -10,15 +10,6 @@
 		<div class="route-story__glow route-story__glow--amber" aria-hidden="true"></div>
 		<div class="route-story__fault-plane" aria-hidden="true"></div>
 
-		<header class="route-story__hud" aria-hidden="true">
-			<span>PACKET / PATH</span>
-			<span class="route-story__hud-state">
-				<i></i>
-				<b data-story-state>ESTABLISHED</b>
-			</span>
-			<span><b data-story-phase>00</b> / 05</span>
-		</header>
-
 		<div class="route-story__scene">
 			<div class="route-story__copy-stack">
 				<div class="route-story__panel route-story__panel--establish">
@@ -39,10 +30,6 @@
 					>
 						Every production journey begins with a source, a route decision, and a first observable hop.
 					</p>
-					<div class="route-story__facts">
-						<span><small>HOP</small><strong>01</strong></span>
-						<span><small>TTL</small><strong>64</strong></span>
-					</div>
 				</article>
 
 				<article class="route-story__panel route-story__panel--core">
@@ -56,10 +43,6 @@
 					>
 						The core compresses thousands of possible paths into one forwarding decision.
 					</p>
-					<div class="route-story__facts">
-						<span><small>NEXT HOP</small><strong>10.24.0.1</strong></span>
-						<span><small>PROTO</small><strong>BGP</strong></span>
-					</div>
 				</article>
 
 				<article class="route-story__panel route-story__panel--incident">
@@ -73,10 +56,6 @@
 					>
 						Loss, latency, and route state are evidence. Diagnosis is the work of connecting them.
 					</p>
-					<div class="route-story__facts route-story__facts--alert">
-						<span><small>LOSS</small><strong>3.4%</strong></span>
-						<span><small>RTT</small><strong>86ms</strong></span>
-					</div>
 				</article>
 
 				<article class="route-story__panel route-story__panel--converge">
@@ -90,19 +69,10 @@
 					>
 						A recoverable network explains the failure, selects an alternate path, and verifies the result.
 					</p>
-					<div class="route-story__facts route-story__facts--healthy">
-						<span><small>CONVERGED</small><strong>1.8s</strong></span>
-						<span><small>RTT</small><strong>18ms</strong></span>
-					</div>
 				</article>
 			</div>
 
 			<div class="route-stage route-stage--story" aria-hidden="true">
-				<header class="route-stage__header">
-					<span data-route-stage-label>ROUTE CONVERGENCE</span>
-					<span class="route-stage__live"><i></i> LIVE</span>
-				</header>
-
 				<svg class="route-map" viewBox="0 0 680 560" role="presentation">
 					<defs>
 						<marker id="route-story-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
@@ -135,7 +105,6 @@
 								<circle class="route-node__halo" r="24"></circle>
 								<circle class="route-node__core" r="7"></circle>
 								<text x="-12" y="43">ORIGIN</text>
-								<text x="-12" y="58">10.24.8.14</text>
 							</g>
 							<g class="route-node route-node--access" transform="translate(194 304)">
 								<circle class="route-node__halo" r="18"></circle>
@@ -173,23 +142,9 @@
 							<circle class="route-packet route-packet--primary" cx="96" cy="430" r="5"></circle>
 							<circle class="route-packet route-packet--echo" cx="96" cy="430" r="3"></circle>
 
-							<text class="route-map__coordinate" x="22" y="36">N 31° 13'  |  E 121° 28'</text>
-							<text class="route-map__coordinate" x="498" y="530">TTL 62  /  MTU 1500</text>
 						</g>
 					</g>
 				</svg>
-
-				<div class="route-stage__telemetry">
-					<span><small>LOSS</small><strong>3.4%</strong></span>
-					<span><small>RTT</small><strong>86ms</strong></span>
-					<span><small>STATE</small><strong>DEGRADED</strong></span>
-				</div>
-
-				<footer class="route-stage__footer">
-					<span><small>PROTO</small> BGP</span>
-					<span><small>NEXT HOP</small> <b data-route-next-hop>10.24.0.1</b></span>
-					<span><small>RTT</small> <b data-route-rtt>18ms</b></span>
-				</footer>
 			</div>
 		</div>
 
@@ -197,30 +152,5 @@
 			<i></i><i></i><i></i><i></i><i></i>
 		</div>
 
-		<div class="route-story__handoff">
-			<span>05 / FIELD HANDOFF</span>
-			<strong data-lang-en="Field Notes" data-lang-zh="现场笔记">Field Notes</strong>
-			<p
-				data-lang-en="Incidents become reusable knowledge only after they are recorded, explained, and verified."
-				data-lang-zh="故障只有在被记录、解释和验证之后，才会成为可以复用的经验。"
-			>
-				Incidents become reusable knowledge only after they are recorded, explained, and verified.
-			</p>
-		</div>
-
-		<aside class="route-story__rail" aria-hidden="true">
-			<span>TRACE</span>
-			<div><i data-story-progress-bar></i></div>
-			<b data-story-progress>000</b>
-		</aside>
-
-		<div class="route-story__steps" aria-hidden="true">
-			<span class="is-active">00</span>
-			<span>01</span>
-			<span>02</span>
-			<span>03</span>
-			<span>04</span>
-			<span>05</span>
-		</div>
 	</div>
 </section>

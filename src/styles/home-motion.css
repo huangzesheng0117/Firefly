@@ -853,7 +853,7 @@ body.is-home .network-nav-menu__item.is-active {
 	font-stretch: condensed;
 	font-weight: 900;
 	letter-spacing: -0.07em;
-	line-height: 0.88;
+	line-height: 1;
 	text-wrap: balance;
 }
 
@@ -863,6 +863,14 @@ body.is-home .network-nav-menu__item.is-active {
 	color: rgb(224 238 239 / 65%);
 	font-size: clamp(0.78rem, 1vw, 0.94rem);
 	line-height: 1.72;
+}
+
+@media (min-width: 901px) {
+	html[lang="zh-CN"] .route-story__panel p {
+		max-width: none;
+		font-size: clamp(0.7rem, 0.82vw, 0.9rem);
+		white-space: nowrap;
+	}
 }
 
 .route-story__facts {
@@ -1557,6 +1565,7 @@ body.is-home .network-nav-menu__item.is-active {
 
 	.professional-home .home-data-layer__heading-copy h2 {
 		font-size: clamp(3.8rem, 8.6vh, 6rem);
+		transform: translateY(-0.7rem);
 	}
 
 	.professional-home .home-data-layer__matrix {

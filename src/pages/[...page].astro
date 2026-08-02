@@ -2,7 +2,6 @@
 import type { GetStaticPaths } from "astro";
 import HomeMotion from "@/components/features/HomeMotion.astro";
 import HomeScrollStory from "@/components/features/HomeScrollStory.astro";
-import Footer from "@/components/layout/Footer.astro";
 import HomeDataLayer from "@/components/layout/HomeDataLayer.astro";
 import Navbar from "@/components/layout/Navbar.astro";
 import Layout from "@/layouts/Layout.astro";
@@ -28,10 +27,6 @@ export const getStaticPaths = (() => [
 
 		<HomeDataLayer />
 	</main>
-
-	<div class="home-footer">
-		<Footer />
-	</div>
 
 	<HomeMotion />
 </Layout>
