@@ -1,0 +1,226 @@
+<section
+	class="route-story"
+	id="home-hero"
+	aria-labelledby="home-hero-title"
+	data-route-story
+>
+	<div class="route-story__viewport">
+		<div class="route-story__grid" aria-hidden="true"></div>
+		<div class="route-story__glow route-story__glow--cyan" aria-hidden="true"></div>
+		<div class="route-story__glow route-story__glow--amber" aria-hidden="true"></div>
+		<div class="route-story__fault-plane" aria-hidden="true"></div>
+
+		<header class="route-story__hud" aria-hidden="true">
+			<span>PACKET / PATH</span>
+			<span class="route-story__hud-state">
+				<i></i>
+				<b data-story-state>ESTABLISHED</b>
+			</span>
+			<span><b data-story-phase>00</b> / 05</span>
+		</header>
+
+		<div class="route-story__scene">
+			<div class="route-story__copy-stack">
+				<div class="route-story__panel route-story__panel--establish">
+					<h1 id="home-hero-title" class="route-story__title">
+						<span class="route-story__word route-story__word--packet">Packet</span>
+						<span class="route-story__word route-story__word--path"><i>&amp;</i> Path</span>
+					</h1>
+				</div>
+
+				<article class="route-story__panel route-story__panel--ingress">
+					<span class="route-story__eyebrow">01 / INGRESS</span>
+					<h2 data-lang-en="A packet enters the network" data-lang-zh="数据包进入网络">
+						A packet enters the network
+					</h2>
+					<p
+						data-lang-en="Every production journey begins with a source, a route decision, and a first observable hop."
+						data-lang-zh="每一次生产流量的旅程，都始于一个源地址、一次路由决策和第一个可观测跳点。"
+					>
+						Every production journey begins with a source, a route decision, and a first observable hop.
+					</p>
+					<div class="route-story__facts">
+						<span><small>HOP</small><strong>01</strong></span>
+						<span><small>TTL</small><strong>64</strong></span>
+					</div>
+				</article>
+
+				<article class="route-story__panel route-story__panel--core">
+					<span class="route-story__eyebrow">02 / CORE TRANSIT</span>
+					<h2 data-lang-en="The next hop is not the destination" data-lang-zh="下一跳不是终点">
+						The next hop is not the destination
+					</h2>
+					<p
+						data-lang-en="The core compresses thousands of possible paths into one forwarding decision."
+						data-lang-zh="核心网络把成千上万条可能路径，压缩成一次明确的转发决定。"
+					>
+						The core compresses thousands of possible paths into one forwarding decision.
+					</p>
+					<div class="route-story__facts">
+						<span><small>NEXT HOP</small><strong>10.24.0.1</strong></span>
+						<span><small>PROTO</small><strong>BGP</strong></span>
+					</div>
+				</article>
+
+				<article class="route-story__panel route-story__panel--incident">
+					<span class="route-story__eyebrow">03 / INCIDENT</span>
+					<h2 data-lang-en="When the path breaks, judgment begins" data-lang-zh="路径异常，判断开始">
+						When the path breaks, judgment begins
+					</h2>
+					<p
+						data-lang-en="Loss, latency, and route state are evidence. Diagnosis is the work of connecting them."
+						data-lang-zh="丢包、时延和路由状态只是证据，诊断的价值在于把它们连接起来。"
+					>
+						Loss, latency, and route state are evidence. Diagnosis is the work of connecting them.
+					</p>
+					<div class="route-story__facts route-story__facts--alert">
+						<span><small>LOSS</small><strong>3.4%</strong></span>
+						<span><small>RTT</small><strong>86ms</strong></span>
+					</div>
+				</article>
+
+				<article class="route-story__panel route-story__panel--converge">
+					<span class="route-story__eyebrow">04 / CONVERGENCE</span>
+					<h2 data-lang-en="The route converges again" data-lang-zh="路由重新收敛">
+						The route converges again
+					</h2>
+					<p
+						data-lang-en="A recoverable network explains the failure, selects an alternate path, and verifies the result."
+						data-lang-zh="可恢复的网络会解释故障、选择备用路径，并用数据验证结果。"
+					>
+						A recoverable network explains the failure, selects an alternate path, and verifies the result.
+					</p>
+					<div class="route-story__facts route-story__facts--healthy">
+						<span><small>CONVERGED</small><strong>1.8s</strong></span>
+						<span><small>RTT</small><strong>18ms</strong></span>
+					</div>
+				</article>
+			</div>
+
+			<div class="route-stage route-stage--story" aria-hidden="true">
+				<header class="route-stage__header">
+					<span data-route-stage-label>ROUTE CONVERGENCE</span>
+					<span class="route-stage__live"><i></i> LIVE</span>
+				</header>
+
+				<svg class="route-map" viewBox="0 0 680 560" role="presentation">
+					<defs>
+						<marker id="route-story-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+							<path d="M 0 0 L 10 5 L 0 10 z"></path>
+						</marker>
+					</defs>
+
+					<g class="route-map__camera">
+						<g class="route-map__parallax">
+							<path class="route-trace route-trace--muted" d="M96 430 C170 424 226 320 332 284 C414 254 444 188 540 164"></path>
+							<path class="route-trace route-trace--muted" d="M96 430 C190 480 250 472 332 284 C426 288 518 350 624 324"></path>
+							<path class="route-trace route-trace--muted" d="M194 304 C248 252 282 268 332 284"></path>
+							<path class="route-trace route-trace--muted" d="M332 284 C398 366 468 430 572 452"></path>
+
+							<path class="route-trace route-trace--active" marker-end="url(#route-story-arrow)" d="M96 430 C170 424 226 320 332 284 C414 254 444 188 540 164"></path>
+							<path class="route-trace route-trace--flow" d="M96 430 C170 424 226 320 332 284 C414 254 444 188 540 164"></path>
+							<path
+								class="route-trace route-trace--alternate"
+								pathLength="1"
+								d="M96 430 C190 480 250 472 332 284 C398 366 468 430 572 452 C610 406 642 350 624 324 C594 278 574 220 540 164"
+							></path>
+
+							<g class="route-orbit">
+								<circle cx="332" cy="284" r="92"></circle>
+								<circle cx="332" cy="284" r="112"></circle>
+								<path d="M332 172 A112 112 0 0 1 444 284"></path>
+							</g>
+
+							<g class="route-node route-node--origin" transform="translate(96 430)">
+								<circle class="route-node__halo" r="24"></circle>
+								<circle class="route-node__core" r="7"></circle>
+								<text x="-12" y="43">ORIGIN</text>
+								<text x="-12" y="58">10.24.8.14</text>
+							</g>
+							<g class="route-node route-node--access" transform="translate(194 304)">
+								<circle class="route-node__halo" r="18"></circle>
+								<circle class="route-node__core" r="5"></circle>
+								<text x="-8" y="36">ACCESS</text>
+							</g>
+							<g class="route-node route-node--core" transform="translate(332 284)">
+								<circle class="route-node__halo" r="42"></circle>
+								<circle class="route-node__core" r="11"></circle>
+								<text x="-18" y="62">CORE</text>
+								<text x="-18" y="77">NEXT HOP</text>
+							</g>
+							<g class="route-node route-node--edge" transform="translate(540 164)">
+								<circle class="route-node__halo" r="31"></circle>
+								<circle class="route-node__core" r="8"></circle>
+								<text x="-14" y="50">EDGE</text>
+								<text x="-14" y="65">ESTABLISHED</text>
+							</g>
+							<g class="route-node route-node--observe" transform="translate(624 324)">
+								<circle class="route-node__halo" r="18"></circle>
+								<circle class="route-node__core" r="5"></circle>
+								<text x="-64" y="37">OBSERVE</text>
+							</g>
+							<g class="route-node route-node--automate" transform="translate(572 452)">
+								<circle class="route-node__halo" r="16"></circle>
+								<circle class="route-node__core" r="5"></circle>
+								<text x="-62" y="34">AUTOMATE</text>
+							</g>
+
+							<g class="route-fault" transform="translate(266 328)">
+								<circle r="21"></circle>
+								<path d="M-7 -7 L7 7 M7 -7 L-7 7"></path>
+							</g>
+
+							<circle class="route-packet route-packet--primary" cx="96" cy="430" r="5"></circle>
+							<circle class="route-packet route-packet--echo" cx="96" cy="430" r="3"></circle>
+
+							<text class="route-map__coordinate" x="22" y="36">N 31° 13'  |  E 121° 28'</text>
+							<text class="route-map__coordinate" x="498" y="530">TTL 62  /  MTU 1500</text>
+						</g>
+					</g>
+				</svg>
+
+				<div class="route-stage__telemetry">
+					<span><small>LOSS</small><strong>3.4%</strong></span>
+					<span><small>RTT</small><strong>86ms</strong></span>
+					<span><small>STATE</small><strong>DEGRADED</strong></span>
+				</div>
+
+				<footer class="route-stage__footer">
+					<span><small>PROTO</small> BGP</span>
+					<span><small>NEXT HOP</small> <b data-route-next-hop>10.24.0.1</b></span>
+					<span><small>RTT</small> <b data-route-rtt>18ms</b></span>
+				</footer>
+			</div>
+		</div>
+
+		<div class="route-story__tunnel" aria-hidden="true">
+			<i></i><i></i><i></i><i></i><i></i>
+		</div>
+
+		<div class="route-story__handoff">
+			<span>05 / FIELD HANDOFF</span>
+			<strong data-lang-en="Field Notes" data-lang-zh="现场笔记">Field Notes</strong>
+			<p
+				data-lang-en="Incidents become reusable knowledge only after they are recorded, explained, and verified."
+				data-lang-zh="故障只有在被记录、解释和验证之后，才会成为可以复用的经验。"
+			>
+				Incidents become reusable knowledge only after they are recorded, explained, and verified.
+			</p>
+		</div>
+
+		<aside class="route-story__rail" aria-hidden="true">
+			<span>TRACE</span>
+			<div><i data-story-progress-bar></i></div>
+			<b data-story-progress>000</b>
+		</aside>
+
+		<div class="route-story__steps" aria-hidden="true">
+			<span class="is-active">00</span>
+			<span>01</span>
+			<span>02</span>
+			<span>03</span>
+			<span>04</span>
+			<span>05</span>
+		</div>
+	</div>
+</section>

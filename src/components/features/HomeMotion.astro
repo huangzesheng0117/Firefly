@@ -10,17 +10,63 @@
 		__packetPathHomeInit?: () => void;
 	};
 
+	type PhaseMeta = {
+		state: string;
+		stage: string;
+		nextHop: string;
+		rtt: string;
+	};
+
 	const homeWindow = window as HomeMotionWindow;
+	const forceFullMotion = new URLSearchParams(window.location.search).get("motion") === "full";
+	document.documentElement.classList.toggle("motion-full", forceFullMotion);
 
 	const initHomeMotion = () => {
 		homeWindow.__packetPathHomeCleanup?.();
 
 		const root = document.querySelector<HTMLElement>(".professional-home");
-		const hero = document.querySelector<HTMLElement>(".route-hero");
-		if (!root || !hero) return;
+		const story = root?.querySelector<HTMLElement>("[data-route-story]");
+		const viewport = story?.querySelector<HTMLElement>(".route-story__viewport");
+		if (!root || !story || !viewport) return;
 
 		const media = gsap.matchMedia();
 		const select = gsap.utils.selector(root);
+		let activePhase = -1;
+
+		const phaseMeta: PhaseMeta[] = [
+			{ state: "ESTABLISHED", stage: "ROUTE CONVERGENCE", nextHop: "10.24.0.1", rtt: "18ms" },
+			{ state: "INGRESS", stage: "PACKET INGRESS", nextHop: "10.24.8.1", rtt: "06ms" },
+			{ state: "TRANSIT", stage: "CORE TRANSIT", nextHop: "10.24.0.1", rtt: "12ms" },
+			{ state: "DEGRADED", stage: "PATH ANOMALY", nextHop: "UNREACHABLE", rtt: "86ms" },
+			{ state: "CONVERGING", stage: "ROUTE RECOVERY", nextHop: "10.24.0.9", rtt: "18ms" },
+			{ state: "ARCHIVED", stage: "FIELD HANDOFF", nextHop: "VERIFIED", rtt: "18ms" },
+		];
+
+		const storyState = select<HTMLElement>("[data-story-state]")[0];
+		const storyPhase = select<HTMLElement>("[data-story-phase]")[0];
+		const storyProgress = select<HTMLElement>("[data-story-progress]")[0];
+		const progressBar = select<HTMLElement>("[data-story-progress-bar]")[0];
+		const phaseSteps = select<HTMLElement>(".route-story__steps span");
+		const stageLabel = select<HTMLElement>("[data-route-stage-label]")[0];
+		const nextHop = select<HTMLElement>("[data-route-next-hop]")[0];
+		const routeRtt = select<HTMLElement>("[data-route-rtt]")[0];
+
+		const updatePhase = (progress: number) => {
+			const phase = Math.min(phaseMeta.length - 1, Math.floor(progress * phaseMeta.length));
+			const percentage = Math.round(progress * 100);
+			if (storyProgress) storyProgress.textContent = String(percentage).padStart(3, "0");
+			if (progressBar) progressBar.style.transform = `scaleY(${progress})`;
+			if (phase === activePhase) return;
+
+			activePhase = phase;
+			const meta = phaseMeta[phase];
+			if (storyState) storyState.textContent = meta.state;
+			if (storyPhase) storyPhase.textContent = String(phase).padStart(2, "0");
+			if (stageLabel) stageLabel.textContent = meta.stage;
+			if (nextHop) nextHop.textContent = meta.nextHop;
+			if (routeRtt) routeRtt.textContent = meta.rtt;
+			phaseSteps.forEach((step, index) => step.classList.toggle("is-active", index === phase));
+		};
 
 		media.add(
 			{
@@ -29,149 +75,191 @@
 				reduceMotion: "(prefers-reduced-motion: reduce)",
 			},
 			(context) => {
-				const { isDesktop, reduceMotion } = context.conditions as {
+				const { isDesktop, reduceMotion: prefersReducedMotion } = context.conditions as {
 					isDesktop: boolean;
 					isMobile: boolean;
 					reduceMotion: boolean;
 				};
+				const reduceMotion = prefersReducedMotion && !forceFullMotion;
 
-				const introTargets = select(".route-hero__word, .route-stage");
+				const panels = select<HTMLElement>(".route-story__panel");
+				const establish = select<HTMLElement>(".route-story__panel--establish")[0];
+				const ingress = select<HTMLElement>(".route-story__panel--ingress")[0];
+				const core = select<HTMLElement>(".route-story__panel--core")[0];
+				const incident = select<HTMLElement>(".route-story__panel--incident")[0];
+				const converge = select<HTMLElement>(".route-story__panel--converge")[0];
+				const stage = select<HTMLElement>(".route-stage--story")[0];
+				const camera = select<SVGElement>(".route-map__camera")[0];
+				const parallax = select<SVGElement>(".route-map__parallax")[0];
+				const tunnel = select<HTMLElement>(".route-story__tunnel")[0];
+				const tunnelRings = select<HTMLElement>(".route-story__tunnel i");
+				const faultPlane = select<HTMLElement>(".route-story__fault-plane")[0];
+				const fault = select<SVGElement>(".route-fault")[0];
+				const telemetry = select<HTMLElement>(".route-stage__telemetry")[0];
+				const handoff = select<HTMLElement>(".route-story__handoff")[0];
+				const handoffContent = select<HTMLElement>(".route-story__handoff > *");
+				const activeTrace = select<SVGElement>(".route-trace--active")[0];
+				const flowTrace = select<SVGElement>(".route-trace--flow")[0];
+				const alternateTrace = select<SVGElement>(".route-trace--alternate")[0];
+				const primaryPacket = select<SVGElement>(".route-packet--primary")[0];
+				const echoPacket = select<SVGElement>(".route-packet--echo")[0];
+				const chrome = select<HTMLElement>(".route-story__hud, .route-story__rail, .route-story__steps");
+				const dataCards = select<HTMLElement>(".data-metric-card, .data-band");
 
 				if (reduceMotion) {
-					gsap.set(introTargets, { autoAlpha: 1, clearProps: "transform" });
-					gsap.set(select(".data-metric-card, .data-band"), {
+					gsap.set([...panels, stage, handoff, ...dataCards], {
 						autoAlpha: 1,
 						clearProps: "transform",
 					});
+					gsap.set([fault, telemetry, tunnel, primaryPacket, echoPacket], { autoAlpha: 0 });
+					gsap.set(alternateTrace, { autoAlpha: 0.5, strokeDashoffset: 0 });
+					updatePhase(0);
 					document.documentElement.classList.add("home-motion-ready");
 					return;
 				}
 
-				gsap.set(select(".route-hero__word"), {
-					autoAlpha: 0,
-					yPercent: 118,
-					rotation: 1.5,
-				});
-				gsap.set(select(".route-stage"), {
-					autoAlpha: 0,
-					scale: isDesktop ? 0.88 : 0.96,
-					x: isDesktop ? 44 : 0,
-				});
-				gsap.set(select(".route-node, .route-trace, .route-orbit"), {
+				gsap.set(select(".route-story__word"), { autoAlpha: 0, yPercent: 90, rotation: 1 });
+				gsap.set(stage, { autoAlpha: 0 });
+				gsap.set(select(".route-node, .route-trace:not(.route-trace--alternate), .route-orbit"), {
 					autoAlpha: 0,
 				});
+				gsap.set([ingress, core, incident, converge], { autoAlpha: 0, y: 48 });
+				gsap.set(handoff, { autoAlpha: 0, y: 54 });
+				gsap.set([faultPlane, fault, telemetry, tunnel], { autoAlpha: 0 });
+				gsap.set(tunnelRings, { autoAlpha: 0, scale: 0.72, rotation: -8 });
+				gsap.set(alternateTrace, { autoAlpha: 0, strokeDashoffset: 1 });
+				gsap.set(primaryPacket, { autoAlpha: 1, x: 0, y: 0 });
+				gsap.set(echoPacket, { autoAlpha: 0, x: 0, y: 0 });
+				updatePhase(0);
+
 				const intro = gsap.timeline({
-					defaults: { duration: 0.72, ease: "power3.out" },
-					onStart: () =>
-						document.documentElement.classList.add("home-motion-ready"),
+					defaults: { ease: "power3.out" },
+					onStart: () => document.documentElement.classList.add("home-motion-ready"),
 				});
 
 				intro
-					.to(select(".route-stage"), { autoAlpha: 1, scale: 1, x: 0 }, 0)
-					.to(select(".route-trace"), { autoAlpha: 1, duration: 0.5 }, 0.18)
+					.to(stage, { autoAlpha: 1, duration: 0.7 }, 0)
+					.to(select(".route-trace:not(.route-trace--alternate)"), { autoAlpha: 1, duration: 0.5 }, 0.12)
+					.to(select(".route-node"), { autoAlpha: 1, duration: 0.48, stagger: 0.055 }, 0.2)
+					.to(select(".route-orbit"), { autoAlpha: 1, duration: 0.6 }, 0.28)
 					.to(
-						select(".route-node"),
-						{ autoAlpha: 1, duration: 0.5, stagger: 0.07 },
-						0.24,
-					)
-					.to(select(".route-orbit"), { autoAlpha: 1, duration: 0.65 }, 0.28)
-					.to(
-						select(".route-hero__word"),
-						{
-							autoAlpha: 1,
-							yPercent: 0,
-							rotation: 0,
-							duration: 0.86,
-							stagger: 0.11,
-						},
-						0.42,
+						select(".route-story__word"),
+						{ autoAlpha: 1, yPercent: 0, rotation: 0, duration: 0.82, stagger: 0.1 },
+						0.34,
 					);
 
-				gsap.to(select(".route-orbit"), {
-					rotation: 360,
-					svgOrigin: "332 284",
-					duration: 22,
-					ease: "none",
-					repeat: -1,
-				});
+				const ambientTweens = [
+					gsap.to(select(".route-orbit"), {
+						rotation: 360,
+						svgOrigin: "332 284",
+						duration: 24,
+						ease: "none",
+						repeat: -1,
+					}),
+					gsap.to(flowTrace, {
+						strokeDashoffset: -84,
+						duration: 2.2,
+						ease: "none",
+						repeat: -1,
+					}),
+					gsap.to(select(".route-stage__live i"), {
+						autoAlpha: 0.35,
+						duration: 0.75,
+						ease: "sine.inOut",
+						repeat: -1,
+						yoyo: true,
+					}),
+				];
+				const setAmbientRunning = (running: boolean) => {
+					ambientTweens.forEach((tween) => tween.paused(!running));
+				};
 
-				gsap.to(select(".route-trace--flow"), {
-					strokeDashoffset: -84,
-					duration: 2.2,
-					ease: "none",
-					repeat: -1,
-				});
-
-				gsap.to(select(".route-stage__live i"), {
-					autoAlpha: 0.35,
-					duration: 0.75,
-					ease: "sine.inOut",
-					repeat: -1,
-					yoyo: true,
-				});
-
-				const packets = gsap.timeline({ repeat: -1, repeatDelay: 0.45 });
-				packets
-					.set(select(".route-packet"), { autoAlpha: 0, x: 0, y: 0 })
-					.to(select(".route-packet--primary"), { autoAlpha: 1, duration: 0.12 })
-					.to(
-						select(".route-packet--primary"),
-						{ x: 236, y: -146, duration: 0.92, ease: "power2.inOut" },
-						"<",
-					)
-					.to(select(".route-packet--primary"), {
-						x: 444,
-						y: -266,
-						duration: 0.82,
-						ease: "power2.inOut",
-					})
-					.to(select(".route-packet--primary"), { autoAlpha: 0, duration: 0.2 })
-					.to(select(".route-packet--echo"), { autoAlpha: 0.82, duration: 0.12 }, 0.38)
-					.to(
-						select(".route-packet--echo"),
-						{ x: 236, y: -146, duration: 0.92, ease: "power2.inOut" },
-						0.38,
-					)
-					.to(select(".route-packet--echo"), {
-						x: 444,
-						y: -266,
-						duration: 0.82,
-						ease: "power2.inOut",
-					})
-					.to(select(".route-packet--echo"), { autoAlpha: 0, duration: 0.2 });
-
-				gsap
-					.timeline({
-						scrollTrigger: {
-							id: "home-hero-scrub",
-							trigger: hero,
-							start: "top top",
-							end: "bottom top",
-							scrub: 0.6,
-						},
-					})
-					.to(select(".route-hero__copy"), { yPercent: -8, autoAlpha: 0.24 }, 0)
-					.to(select(".route-stage"), { yPercent: 7, scale: 0.94 }, 0)
-					.to(select(".route-hero__grid"), { yPercent: 12 }, 0);
-
-				gsap.from(select(".home-data-layer__heading > *"), {
-					autoAlpha: 0,
-					y: 38,
-					duration: 0.72,
-					ease: "power3.out",
-					stagger: 0.08,
+				const storyTimeline = gsap.timeline({
+					defaults: { ease: "none" },
 					scrollTrigger: {
-						id: "home-data-heading",
-						trigger: select(".home-data-layer__heading")[0],
-						start: "top 82%",
-						once: true,
+						id: "home-story-scroll",
+						trigger: story,
+						pin: viewport,
+						start: "top top",
+						end: () => `+=${Math.round(window.innerHeight * (isDesktop ? 5.8 : 4.8))}`,
+						scrub: isDesktop ? 0.8 : 0.55,
+						anticipatePin: 1,
+						invalidateOnRefresh: true,
+						onUpdate: (self) => updatePhase(self.progress),
+						onToggle: (self) => setAmbientRunning(self.isActive),
 					},
 				});
 
-				const revealItems = select<HTMLElement>(".data-metric-card, .data-band");
-				gsap.set(revealItems, { autoAlpha: 0, y: 42 });
-				ScrollTrigger.batch(revealItems, {
-					start: "top 86%",
+				storyTimeline
+					.addLabel("establish", 0)
+					.to(establish, { autoAlpha: 0, y: -42, scale: 0.94, duration: 0.8 }, 0.72)
+					.to(stage, { xPercent: isDesktop ? -15 : 0, y: isDesktop ? 0 : 34, scale: isDesktop ? 1.05 : 0.93, duration: 1.05 }, 0.7)
+					.to(ingress, { autoAlpha: 1, y: 0, duration: 0.58 }, 1.15)
+					.to(primaryPacket, { x: 98, y: -126, duration: 0.85, ease: "power2.inOut" }, 1.25)
+					.to(echoPacket, { autoAlpha: 0.64, x: 98, y: -126, duration: 0.95, ease: "power2.inOut" }, 1.43)
+					.addLabel("ingress", 2)
+					.to(ingress, { autoAlpha: 0, y: -34, duration: 0.5 }, 3.45)
+					.to(primaryPacket, { x: 236, y: -146, duration: 0.85, ease: "power2.inOut" }, 2.38)
+					.to(echoPacket, { x: 236, y: -146, duration: 0.95, ease: "power2.inOut" }, 2.56)
+					.to(core, { autoAlpha: 1, y: 0, duration: 0.52 }, 3.48)
+					.to(stage, { xPercent: isDesktop ? 5 : 0, y: 0, scale: isDesktop ? 1.12 : 0.96, duration: 1.05 }, 3.42)
+					.to(camera, { scale: isDesktop ? 1.72 : 1.92, x: isDesktop ? -92 : -56, y: -28, duration: 1.05, svgOrigin: "332 284" }, 3.5)
+					.to(tunnel, { autoAlpha: 1, scale: 1, duration: 0.42 }, 3.68)
+					.to(tunnelRings, { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.68, stagger: 0.075 }, 3.68)
+					.addLabel("core", 4)
+					.to(core, { autoAlpha: 0, y: -34, duration: 0.5 }, 5.52)
+					.to(tunnelRings, { autoAlpha: 0, scale: 1.3, duration: 0.58, stagger: 0.05 }, 5.48)
+					.to(tunnel, { autoAlpha: 0, duration: 0.35 }, 5.78)
+					.to(camera, { scale: 1, x: 0, y: 0, duration: 0.9, svgOrigin: "332 284" }, 5.48)
+					.to(stage, { xPercent: isDesktop ? 3 : 0, y: 0, scale: 1, duration: 0.9 }, 5.45)
+					.to(incident, { autoAlpha: 1, y: 0, duration: 0.52 }, 5.58)
+					.to(faultPlane, { autoAlpha: 1, x: 0, duration: 0.42 }, 5.62)
+					.to(fault, { autoAlpha: 1, scale: 1.15, duration: 0.42, svgOrigin: "266 328" }, 5.72)
+					.to(activeTrace, { stroke: "#ff6f61", opacity: 0.72, duration: 0.55 }, 5.65)
+					.to(flowTrace, { opacity: 0.08, duration: 0.35 }, 5.65)
+					.to(telemetry, { autoAlpha: 1, y: 0, duration: 0.45 }, 5.86)
+					.to(primaryPacket, { x: 236, y: -146, autoAlpha: 0.35, duration: 0.3 }, 5.82)
+					.to(echoPacket, { autoAlpha: 0, duration: 0.3 }, 5.82)
+					.addLabel("incident", 6)
+					.to(incident, { autoAlpha: 0, y: -34, duration: 0.5 }, 7.52)
+					.to(converge, { autoAlpha: 1, y: 0, duration: 0.52 }, 7.58)
+					.to(faultPlane, { autoAlpha: 0, duration: 0.6 }, 7.58)
+					.to(fault, { autoAlpha: 0, scale: 1.65, duration: 0.52, svgOrigin: "266 328" }, 7.56)
+					.to(telemetry, { autoAlpha: 0, y: 12, duration: 0.42 }, 7.56)
+					.to(alternateTrace, { autoAlpha: 1, strokeDashoffset: 0, duration: 1.5 }, 7.68)
+					.to(activeTrace, { stroke: "#8de7ed", opacity: 0.16, duration: 0.65 }, 7.68)
+					.to(primaryPacket, { x: 476, y: 22, autoAlpha: 1, duration: 0.82, ease: "power2.inOut" }, 8.1)
+					.to(primaryPacket, { x: 528, y: -106, duration: 0.6, ease: "power2.inOut" }, 8.86)
+					.to(primaryPacket, { x: 444, y: -266, duration: 0.68, ease: "power2.inOut" }, 9.4)
+					.addLabel("convergence", 8)
+					.to(converge, { autoAlpha: 0, y: -40, duration: 0.5 }, 9.62)
+					.to(stage, { autoAlpha: 0, scale: 0.84, xPercent: isDesktop ? 22 : 0, duration: 0.78 }, 9.62)
+					.to(select(".route-story__grid, .route-story__glow"), { autoAlpha: 0, duration: 0.62 }, 9.65)
+					.to(chrome, { autoAlpha: 0, duration: 0.35 }, 9.7)
+					.to(handoff, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out" }, 9.75)
+					.addLabel("handoff", 10)
+					.to(handoffContent, { y: -10, duration: 1.8, stagger: 0.02 }, 10.05);
+
+				const heading = select<HTMLElement>(".home-data-layer__heading")[0];
+				if (heading) {
+					gsap.from(select(".home-data-layer__heading > *"), {
+						autoAlpha: 0,
+						y: 38,
+						duration: 0.72,
+						ease: "power3.out",
+						stagger: 0.08,
+						scrollTrigger: {
+							id: "home-data-heading",
+							trigger: heading,
+							start: "top 84%",
+							once: true,
+						},
+					});
+				}
+
+				gsap.set(dataCards, { autoAlpha: 0, y: 42 });
+				ScrollTrigger.batch(dataCards, {
+					start: "top 88%",
 					once: true,
 					interval: 0.08,
 					batchMax: 3,
@@ -186,36 +274,26 @@
 						}),
 				});
 
-				if (isDesktop) {
-					const cleanups: Array<() => void> = [];
-					const visual = select<SVGElement>(".route-map__parallax")[0];
-					let bounds = hero.getBoundingClientRect();
-					const xTo = gsap.quickTo(visual, "x", {
-						duration: 0.7,
-						ease: "power3.out",
-					});
-					const yTo = gsap.quickTo(visual, "y", {
-						duration: 0.7,
-						ease: "power3.out",
-					});
+				if (isDesktop && parallax) {
+					let bounds = viewport.getBoundingClientRect();
+					const xTo = gsap.quickTo(parallax, "x", { duration: 0.7, ease: "power3.out" });
+					const yTo = gsap.quickTo(parallax, "y", { duration: 0.7, ease: "power3.out" });
 					const updateBounds = () => {
-						bounds = hero.getBoundingClientRect();
+						bounds = viewport.getBoundingClientRect();
 					};
 					const handlePointer = (event: PointerEvent) => {
-						xTo(((event.clientX - bounds.left) / bounds.width - 0.5) * 16);
-						yTo(((event.clientY - bounds.top) / bounds.height - 0.5) * 12);
+						xTo(((event.clientX - bounds.left) / bounds.width - 0.5) * 14);
+						yTo(((event.clientY - bounds.top) / bounds.height - 0.5) * 10);
 					};
-					hero.addEventListener("pointerenter", updateBounds, { passive: true });
-					hero.addEventListener("pointermove", handlePointer, { passive: true });
+
+					viewport.addEventListener("pointerenter", updateBounds, { passive: true });
+					viewport.addEventListener("pointermove", handlePointer, { passive: true });
 					window.addEventListener("resize", updateBounds, { passive: true });
-					cleanups.push(() => {
-						hero.removeEventListener("pointerenter", updateBounds);
-						hero.removeEventListener("pointermove", handlePointer);
-						window.removeEventListener("resize", updateBounds);
-					});
 
 					return () => {
-						cleanups.forEach((cleanup) => cleanup());
+						viewport.removeEventListener("pointerenter", updateBounds);
+						viewport.removeEventListener("pointermove", handlePointer);
+						window.removeEventListener("resize", updateBounds);
 					};
 				}
 			},
@@ -241,9 +319,7 @@
 		document.addEventListener("astro:page-load", scheduleHomeMotion);
 		document.addEventListener("firefly:page:loaded", scheduleHomeMotion);
 		document.addEventListener("swup:contentReplaced", scheduleHomeMotion);
-		document.addEventListener("swup:visit:start", () =>
-			homeWindow.__packetPathHomeCleanup?.(),
-		);
+		document.addEventListener("swup:visit:start", () => homeWindow.__packetPathHomeCleanup?.());
 	}
 
 	scheduleHomeMotion();
