@@ -1412,10 +1412,10 @@ body.is-home .network-nav-menu__item.is-active {
 	align-items: stretch;
 	overflow: hidden;
 	margin-top: var(--matrix-gap);
-	border: 1px solid rgb(141 231 237 / 19%);
+	border: 1px solid rgb(16 33 42 / 72%);
 	border-radius: 0;
-	background: var(--route-night-raised);
-	color: #e9f3f2;
+	background: #fff;
+	color: var(--route-ink);
 	isolation: isolate;
 	will-change: transform, opacity;
 }
@@ -1424,7 +1424,7 @@ body.is-home .network-nav-menu__item.is-active {
 	position: absolute;
 	inset: 0;
 	z-index: -1;
-	background: linear-gradient(90deg, rgb(6 19 28 / 34%), var(--route-night-raised) 43%);
+	background: linear-gradient(90deg, rgb(255 255 255 / 58%), #fff 54%);
 	content: "";
 }
 
@@ -1442,8 +1442,8 @@ body.is-home .network-nav-menu__item.is-active {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	filter: grayscale(1) contrast(1.2) brightness(0.7);
-	opacity: 0.34;
+	filter: grayscale(1) contrast(1.18);
+	opacity: 0.2;
 }
 
 .professional-home .data-band__intro {
@@ -1456,16 +1456,16 @@ body.is-home .network-nav-menu__item.is-active {
 }
 
 .professional-home .data-band__intro > span {
-	color: var(--route-amber);
+	color: #516b74;
 }
 
 .professional-home .data-band__intro h3 {
-	color: #eef6f5;
+	color: var(--route-ink);
 }
 
 .professional-home .data-band__intro p {
 	max-width: 29rem;
-	color: rgb(224 238 239 / 58%);
+	color: #4d6169;
 }
 
 .professional-home .matrix-loop {
@@ -1486,15 +1486,15 @@ body.is-home .network-nav-menu__item.is-active {
 }
 
 .professional-home .matrix-loop__logo-item {
-	color: #eef6f5;
+	color: var(--route-ink);
 }
 
 .professional-home .matrix-loop__logo {
-	filter: saturate(0.8) brightness(1.08) drop-shadow(0 0.2rem 0.4rem rgb(0 0 0 / 18%));
+	filter: saturate(0.8) drop-shadow(0 0.2rem 0.4rem rgb(0 0 0 / 12%));
 }
 
 .professional-home .matrix-loop__logo-item small {
-	color: #dce8e7;
+	color: #4d6169;
 }
 
 .professional-home .home-data-layer__foot {
@@ -1610,15 +1610,15 @@ body.is-home .network-nav-menu__item.is-active {
 
 	.professional-home .data-band__image img {
 		object-position: center 44%;
-		opacity: 0.28;
+		opacity: 0.2;
 	}
 
 	.professional-home .data-band::after {
-		background: linear-gradient(90deg, rgb(6 19 28 / 45%), var(--route-night-raised) 54%);
+		background: linear-gradient(90deg, rgb(255 255 255 / 58%), #fff 54%);
 	}
 
 	.professional-home .data-band--skills::after {
-		background: linear-gradient(90deg, rgb(7 28 40 / 52%), #0b2330 56%);
+		background: linear-gradient(90deg, rgb(255 255 255 / 58%), #fff 54%);
 	}
 
 	.professional-home .data-band__intro {
@@ -1830,7 +1830,7 @@ body.is-home .network-nav-menu__item.is-active {
 	}
 
 	.professional-home .data-band::after {
-		background: linear-gradient(180deg, rgb(6 19 28 / 35%), var(--route-night-raised) 68%);
+		background: linear-gradient(180deg, rgb(255 255 255 / 58%), #fff 68%);
 	}
 }
 
