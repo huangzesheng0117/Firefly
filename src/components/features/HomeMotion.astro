@@ -11,8 +11,9 @@
 	};
 
 	const homeWindow = window as HomeMotionWindow;
-	const forceFullMotion = new URLSearchParams(window.location.search).get("motion") === "full";
-	document.documentElement.classList.toggle("motion-full", forceFullMotion);
+	const motionMode = new URLSearchParams(window.location.search).get("motion")?.toLowerCase();
+	const reducedMotionRequested = motionMode === "reduced";
+	document.documentElement.classList.toggle("motion-full", !reducedMotionRequested);
 
 	const initHomeMotion = () => {
 		homeWindow.__packetPathHomeCleanup?.();
@@ -29,15 +30,13 @@
 			{
 				isDesktop: "(min-width: 901px)",
 				isMobile: "(max-width: 900px)",
-				reduceMotion: "(prefers-reduced-motion: reduce)",
 			},
 			(context) => {
-				const { isDesktop, reduceMotion: prefersReducedMotion } = context.conditions as {
+				const { isDesktop } = context.conditions as {
 					isDesktop: boolean;
 					isMobile: boolean;
-					reduceMotion: boolean;
 				};
-				const reduceMotion = prefersReducedMotion && !forceFullMotion;
+				const reduceMotion = reducedMotionRequested;
 
 				const panels = select<HTMLElement>(".route-story__panel");
 				const establish = select<HTMLElement>(".route-story__panel--establish")[0];

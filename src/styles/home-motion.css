@@ -1974,14 +1974,14 @@ body.is-home .network-nav-menu__item.is-active {
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.route-scroll-cue i,
-	.professional-home .matrix-loop__track {
+	html:not(.motion-full) .route-scroll-cue i,
+	html:not(.motion-full) .professional-home .matrix-loop__track {
 		animation: none;
 	}
 
-	.route-link,
-	.professional-home .data-metric-card,
-	.professional-home .data-metric-card__image img {
+	html:not(.motion-full) .route-link,
+	html:not(.motion-full) .professional-home .data-metric-card,
+	html:not(.motion-full) .professional-home .data-metric-card__image img {
 		transition-duration: 0.01ms;
 	}
 }
