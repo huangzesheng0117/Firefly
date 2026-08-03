@@ -870,7 +870,7 @@ body:not(.is-home) .footer {
 	.home-hero__media img,
 	.home-hero__scanline,
 	.home-hero__name--css-hatch .home-hero__name-letter,
-	.matrix-loop__track {
+	html:not(.motion-full) .matrix-loop__track {
 		animation: none;
 	}
 }
