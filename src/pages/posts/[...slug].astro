@@ -30,9 +30,13 @@ import { formatDateToYYYYMMDD } from "@/utils/date-utils";
 import { getApiUrlList, processCoverImageSync } from "@/utils/image-utils";
 import { url } from "@/utils/url-utils";
 import {
-	Content as EnglishArticleContent,
-	getHeadings as getEnglishArticleHeadings,
+	Content as IdcEnglishArticleContent,
+	getHeadings as getIdcEnglishArticleHeadings,
 } from "@/content-locales/idc-edge-router-replacement/index.en.md";
+import {
+	Content as CampusEnglishArticleContent,
+	getHeadings as getCampusEnglishArticleHeadings,
+} from "@/content-locales/campus-office-network-deployment/index.en.md";
 
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
@@ -48,9 +52,22 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
-const isBilingualArticle = entry.id === "idc-edge-router-replacement";
-const englishArticleHeadings = isBilingualArticle
-	? getEnglishArticleHeadings()
+const bilingualArticles = {
+	"idc-edge-router-replacement": {
+		Content: IdcEnglishArticleContent,
+		getHeadings: getIdcEnglishArticleHeadings,
+	},
+	"campus-office-network-deployment": {
+		Content: CampusEnglishArticleContent,
+		getHeadings: getCampusEnglishArticleHeadings,
+	},
+};
+const bilingualArticle =
+	bilingualArticles[entry.id as keyof typeof bilingualArticles];
+const isBilingualArticle = Boolean(bilingualArticle);
+const EnglishArticleContent = bilingualArticle?.Content ?? Content;
+const englishArticleHeadings = bilingualArticle
+	? bilingualArticle.getHeadings()
 	: [];
 const tocHeadings = isBilingualArticle
 	? headings.map((heading, index) => ({

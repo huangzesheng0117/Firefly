@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1160" viewBox="0 0 1500 1160">
+  <style>text{font-family:"Segoe UI",Arial,sans-serif;fill:#10283d}.title{font-size:27px;font-weight:700;fill:#fff}.head{font-size:17px;font-weight:700;fill:#0d3555}.cell{font-size:14px}.grid{fill:none;stroke:#7890a8;stroke-width:1.2}</style>
+  <rect width="1500" height="1160" fill="#f5f6f7"/><rect x="20" y="20" width="1460" height="70" fill="#255981"/><text x="750" y="64" text-anchor="middle" class="title">Device Interface Allocation Plan (Excerpt)</text>
+  <rect x="20" y="110" width="1460" height="55" fill="#8fd14a"/><rect x="20" y="165" width="1460" height="950" fill="#fae5e8"/>
+  <path class="grid" d="M20 110H1480V1115H20ZM20 165H1480M20 215H1480M20 265H1480M20 315H1480M20 365H1480M20 415H1480M20 465H1480M20 515H1480M20 565H1480M20 615H1480M20 665H1480M20 715H1480M20 765H1480M20 815H1480M20 865H1480M20 915H1480M20 965H1480M20 1015H1480M20 1065H1480M320 110V1115M700 110V1115M1080 110V1115"/>
+  <g text-anchor="middle" class="head"><text x="170" y="144">Device Role</text><text x="510" y="144">Interface(s)</text><text x="890" y="144">Purpose</text><text x="1280" y="144">Planning Notes</text></g>
+  <g text-anchor="middle" class="cell">
+    <text x="170" y="195">Egress switch</text><text x="510" y="195">GE1/0/28</text><text x="890" y="195">MAD detection</text><text x="1280" y="195">Dedicated detection link</text>
+    <text x="170" y="245">Egress switch</text><text x="510" y="238"><tspan x="510">GE1/0/23</tspan><tspan x="510" dy="17">GE1/0/24</tspan></text><text x="890" y="245">To Internet firewall</text><text x="1280" y="245">Adjusted to actual port count</text>
+    <text x="170" y="295">Egress switch</text><text x="510" y="288"><tspan x="510">10GE1/0/33</tspan><tspan x="510" dy="17">10GE1/0/34</tspan></text><text x="890" y="295">To carriers</text><text x="1280" y="295">Dual-carrier egress</text>
+    <text x="170" y="345">Egress switch</text><text x="510" y="338"><tspan x="510">10GE1/0/39</tspan><tspan x="510" dy="17">10GE1/0/40</tspan></text><text x="890" y="345">IRF links</text><text x="1280" y="345">Inter-member connectivity</text>
+    <text x="170" y="395">Internet firewall</text><text x="510" y="388"><tspan x="510">E0/0</tspan><tspan x="510" dy="17">E0/1</tspan></text><text x="890" y="395">HA heartbeat</text><text x="1280" y="395">Active/standby synchronization</text>
+    <text x="170" y="445">Internet firewall</text><text x="510" y="438"><tspan x="510">E0/8</tspan><tspan x="510" dy="17">E0/9</tspan></text><text x="890" y="445">To egress switches</text><text x="1280" y="445">Cross-connected</text>
+    <text x="170" y="495">Internet firewall</text><text x="510" y="495">XE0/16</text><text x="890" y="495">To Internet access control</text><text x="1280" y="495">Service link</text>
+    <text x="170" y="545">Internet access control</text><text x="510" y="545">Eth5</text><text x="890" y="545">HA heartbeat</text><text x="1280" y="545">Active/standby synchronization</text>
+    <text x="170" y="595">Internet access control</text><text x="510" y="595">Eth8</text><text x="890" y="595">To campus core</text><text x="1280" y="595">Service link</text>
+    <text x="170" y="645">Internet access control</text><text x="510" y="645">Eth9</text><text x="890" y="645">To Internet firewall</text><text x="1280" y="645">Service link</text>
+    <text x="170" y="695">Campus core</text><text x="510" y="695">10GE1/0/1–10GE1/0/4</text><text x="890" y="695">To aggregation switches</text><text x="1280" y="695">Cross-connected dual uplinks</text>
+    <text x="170" y="745">Campus core</text><text x="510" y="745">10GE1/0/22</text><text x="890" y="745">To Internet access control</text><text x="1280" y="745">Internet path</text>
+    <text x="170" y="795">Campus core</text><text x="510" y="788"><tspan x="510">10GE1/0/23</tspan><tspan x="510" dy="17">10GE1/0/24</tspan></text><text x="890" y="795">To private-line firewall</text><text x="1280" y="795">Business private-line path</text>
+    <text x="170" y="845">Campus core</text><text x="510" y="845">10GE1/0/54</text><text x="890" y="845">MAD detection</text><text x="1280" y="845">Dedicated detection link</text>
+    <text x="170" y="895">Campus core</text><text x="510" y="888"><tspan x="510">10GE1/0/55</tspan><tspan x="510" dy="17">10GE1/0/56</tspan></text><text x="890" y="895">IRF links</text><text x="1280" y="895">Inter-member connectivity</text>
+    <text x="170" y="945">Campus aggregation</text><text x="510" y="945">10GE1/0/1–10GE1/0/7</text><text x="890" y="945">To access switches</text><text x="1280" y="945">Access-zone uplinks</text>
+    <text x="170" y="995">Campus aggregation</text><text x="510" y="988"><tspan x="510">10GE1/0/21</tspan><tspan x="510" dy="17">10GE1/0/22</tspan></text><text x="890" y="995">To campus core</text><text x="1280" y="995">Cross-connected dual uplinks</text>
+    <text x="170" y="1045">Campus aggregation</text><text x="510" y="1038"><tspan x="510">10GE1/0/23</tspan><tspan x="510" dy="17">10GE1/0/24</tspan></text><text x="890" y="1045">IRF links</text><text x="1280" y="1045">Inter-member connectivity</text>
+    <text x="170" y="1095">Access switch</text><text x="510" y="1088"><tspan x="510">10GE1/0/53</tspan><tspan x="510" dy="17">10GE1/0/54</tspan></text><text x="890" y="1095">To aggregation switches</text><text x="1280" y="1095">Dual uplinks</text>
+  </g>
+</svg>

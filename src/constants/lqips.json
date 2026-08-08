@@ -65,5 +65,9 @@
   "public:assets/images/logos/transparent/fortigate.png": "ce513bd5573d804335",
   "public:assets/images/logos/transparent/elasticsearch.png": "ac8763ceb32f55a97b",
   "public:assets/images/logos/transparent/cisco.png": "18485b13485baf1a35",
-  "public:assets/images/logos/transparent/cacti.png": "0e99510d984f129953"
+  "public:assets/images/logos/transparent/cacti.png": "0e99510d984f129953",
+  "src:content/posts/campus-office-network-deployment/assets/园区办公网三个亮点/亮点一-设备与机柜规划.png": "bcc9b3b8c6aef1e6ca",
+  "src:content/posts/campus-office-network-deployment/assets/园区办公网三个亮点/亮点一-接口规划.png": "d6cfcdd2cbc8ecd5db",
+  "src:content/posts/campus-office-network-deployment/assets/园区办公网三个亮点/亮点一-布线规划.png": "bdbfc1babcbedfc6de",
+  "src:content/posts/campus-office-network-deployment/assets/园区办公网三个亮点/亮点一-IP与VLAN规划.png": "aecbc1a8c7bccce4e8"
 }
